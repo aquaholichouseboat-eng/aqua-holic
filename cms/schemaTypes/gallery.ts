@@ -17,7 +17,7 @@ export default defineType({
       type: 'image',
       options: { hotspot: true },
       fields: [{ name: 'alt', type: 'string', title: 'Alt text' }],
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.warning('Photograph is recommended.'),
     }),
     defineField({
       name: 'category',

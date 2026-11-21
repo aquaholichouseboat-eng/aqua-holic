@@ -10,7 +10,7 @@ export default defineType({
       title: 'Question',
       type: 'string',
       description: 'e.g. What are the check-in and check-out timings for overnight houseboats?',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.warning('Question is recommended'),
     }),
     defineField({
       name: 'answer',
@@ -18,7 +18,7 @@ export default defineType({
       type: 'text',
       rows: 4,
       description: 'Detailed answer shown when user clicks to expand',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.warning('Answer is recommended'),
     }),
     defineField({
       name: 'order',

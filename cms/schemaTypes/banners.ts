@@ -9,7 +9,7 @@ export default defineType({
       name: 'title',
       title: 'Banner Title / Headline',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.warning('Title is recommended'),
     }),
     defineField({
       name: 'subtitle',

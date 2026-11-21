@@ -10,7 +10,7 @@ export default defineType({
       title: 'Customer Name(s)',
       type: 'string',
       description: 'e.g. Rahul & Priya Sharma, The Kapoor Family, James & Sarah O\'Brien',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.warning('Customer name is recommended'),
     }),
     defineField({
       name: 'location',
@@ -31,7 +31,7 @@ export default defineType({
       type: 'text',
       rows: 4,
       description: 'The customer’s review quote/experience',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.warning('Review text is recommended'),
     }),
     defineField({
       name: 'boat',

@@ -16,7 +16,7 @@ export default defineType({
       title: 'Main Title',
       type: 'string',
       description: 'Main heading for About Us (e.g. Handcrafted Luxury Backwater Journeys Since 2012)',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.warning('Title is recommended'),
     }),
     defineField({
       name: 'subtitle',

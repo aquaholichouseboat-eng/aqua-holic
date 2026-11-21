@@ -28,7 +28,7 @@ export default defineType({
         ],
         layout: 'radio',
       },
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.warning('Selecting a category (Private or Sharing) is recommended'),
       description: 'Select whether this vessel is a Private Houseboat or a Sharing Houseboat',
     }),
     defineField({
@@ -102,7 +102,7 @@ export default defineType({
       rows: 3,
       fieldset: 'content',
       description: 'Displayed on the houseboat card preview',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.warning('Card summary is recommended'),
     }),
     defineField({
       name: 'longDesc',
@@ -121,7 +121,7 @@ export default defineType({
       fieldset: 'media',
       options: { hotspot: true },
       fields: [{ name: 'alt', type: 'string', title: 'Alt text' }],
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.warning('Cover image is recommended. If left empty, website will display high-res fallback photo.'),
     }),
     defineField({
       name: 'gallery',

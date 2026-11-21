@@ -21,7 +21,7 @@ export default defineType({
       fieldset: 'hero',
       description: 'Main headline for the hero section (e.g. Experience the Beauty of)',
       initialValue: 'Experience the Beauty of',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.warning('Hero heading is recommended'),
     }),
     defineField({
       name: 'heroHeadingHighlight',
@@ -39,7 +39,7 @@ export default defineType({
       fieldset: 'hero',
       description: 'Descriptive subtitle beneath the main heading',
       initialValue: 'AquaHolic luxury Kerala houseboats (private & sharing), day cruises, and romantic shikaras. Transparent pricing, chef-prepared meals, and instant booking.',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.warning('Hero subtitle is recommended'),
     }),
     defineField({
       name: 'heroImage',

@@ -78,7 +78,7 @@ export default defineType({
       rows: 3,
       fieldset: 'content',
       description: 'Displayed on the activity card preview on the homepage',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.warning('Activity summary is recommended'),
     }),
     defineField({
       name: 'longDesc',
@@ -97,7 +97,7 @@ export default defineType({
       fieldset: 'media',
       options: { hotspot: true },
       fields: [{ name: 'alt', type: 'string', title: 'Alt text' }],
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.warning('Cover photo is recommended. If left empty, website displays default photo.'),
     }),
     defineField({
       name: 'gallery',
