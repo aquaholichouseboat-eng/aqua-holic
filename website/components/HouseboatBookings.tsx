@@ -176,47 +176,69 @@ export default function HouseboatBookings({
           </p>
         </div>
 
-        {/* Two Selected Category Buttons: Private Houseboats & Sharing Houseboats */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 mb-6 sm:mb-8">
-          <button
-            type="button"
-            onClick={() => setActiveCategory('private')}
-            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
-              activeCategory === 'private'
-                ? 'bg-gradient-to-r from-sky-600 to-blue-600 text-white shadow-md shadow-sky-500/25 scale-[1.02]'
-                : 'bg-white text-slate-700 hover:text-sky-600 hover:bg-sky-50/80 border border-slate-200 shadow-xs'
-            }`}
-          >
-            <span className={`w-2.5 h-2.5 rounded-full ${activeCategory === 'private' ? 'bg-white' : 'bg-sky-600'}`} />
-            <span>Private Houseboats</span>
-            <span
-              className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${
-                activeCategory === 'private' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
+        {/* Modern Segmented Category Tab Switcher: Side-by-Side on Mobile & Desktop */}
+        <div className="flex justify-center mb-6 sm:mb-8 px-3 sm:px-0">
+          <div className="bg-slate-100/95 p-1 sm:p-1.5 rounded-full inline-flex items-center w-full max-w-[390px] sm:max-w-none sm:w-auto border border-slate-200/90 shadow-xs">
+            <button
+              type="button"
+              onClick={() => setActiveCategory('private')}
+              className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
+                activeCategory === 'private'
+                  ? 'bg-gradient-to-r from-sky-600 to-blue-600 text-white shadow-md shadow-sky-500/25'
+                  : 'text-slate-600 hover:text-sky-600 hover:bg-white/60'
               }`}
             >
-              {privateBoats.length} Vessels
-            </span>
-          </button>
+              <span
+                className={`w-2 h-2 rounded-full shrink-0 ${
+                  activeCategory === 'private' ? 'bg-white' : 'bg-sky-600'
+                }`}
+              />
+              <span className="truncate">
+                <span className="inline sm:hidden">Private</span>
+                <span className="hidden sm:inline">Private Houseboats</span>
+              </span>
+              <span
+                className={`text-[10px] sm:text-[11px] px-1.5 sm:px-2 py-0.5 rounded-full font-medium shrink-0 ${
+                  activeCategory === 'private'
+                    ? 'bg-white/20 text-white'
+                    : 'bg-slate-200/80 text-slate-600'
+                }`}
+              >
+                {privateBoats.length}
+                <span className="hidden sm:inline"> Vessels</span>
+              </span>
+            </button>
 
-          <button
-            type="button"
-            onClick={() => setActiveCategory('sharing')}
-            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
-              activeCategory === 'sharing'
-                ? 'bg-gradient-to-r from-sky-600 to-blue-600 text-white shadow-md shadow-sky-500/25 scale-[1.02]'
-                : 'bg-white text-slate-700 hover:text-sky-600 hover:bg-sky-50/80 border border-slate-200 shadow-xs'
-            }`}
-          >
-            <span className={`w-2.5 h-2.5 rounded-full ${activeCategory === 'sharing' ? 'bg-white' : 'bg-sky-600'}`} />
-            <span>Sharing Houseboats</span>
-            <span
-              className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${
-                activeCategory === 'sharing' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
+            <button
+              type="button"
+              onClick={() => setActiveCategory('sharing')}
+              className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
+                activeCategory === 'sharing'
+                  ? 'bg-gradient-to-r from-sky-600 to-blue-600 text-white shadow-md shadow-sky-500/25'
+                  : 'text-slate-600 hover:text-sky-600 hover:bg-white/60'
               }`}
             >
-              {sharingBoats.length} Packages
-            </span>
-          </button>
+              <span
+                className={`w-2 h-2 rounded-full shrink-0 ${
+                  activeCategory === 'sharing' ? 'bg-white' : 'bg-sky-600'
+                }`}
+              />
+              <span className="truncate">
+                <span className="inline sm:hidden">Sharing</span>
+                <span className="hidden sm:inline">Sharing Houseboats</span>
+              </span>
+              <span
+                className={`text-[10px] sm:text-[11px] px-1.5 sm:px-2 py-0.5 rounded-full font-medium shrink-0 ${
+                  activeCategory === 'sharing'
+                    ? 'bg-white/20 text-white'
+                    : 'bg-slate-200/80 text-slate-600'
+                }`}
+              >
+                {sharingBoats.length}
+                <span className="hidden sm:inline"> Packages</span>
+              </span>
+            </button>
+          </div>
         </div>
 
         {/* Selected Category Header & Cards Carousel */}
