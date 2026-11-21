@@ -47,9 +47,7 @@ export default function Hero({ data }: HeroProps) {
   const subtitle =
     data?.heroSubtitle ||
     'AquaHolic luxury Kerala houseboats (private & sharing), day cruises, and romantic shikaras. Transparent pricing, chef-prepared meals, and instant booking.';
-  const heroImgSrc =
-    urlForImage(data?.heroImage) ||
-    'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1920&q=85&fit=crop';
+  const heroImgSrc = urlForImage(data?.heroImage) || null;
   const heroVideoSrc =
     data?.heroVideoFile?.asset?.url ||
     data?.heroVideoUrl ||
@@ -80,7 +78,7 @@ export default function Hero({ data }: HeroProps) {
         - 100% straight flat horizontal baseline at the bottom
       */}
       <div className="relative min-h-[460px] sm:min-h-[520px] md:min-h-[600px] w-full flex items-center justify-center pt-10 pb-10 sm:pt-14 sm:pb-14 md:pt-16 md:pb-16 overflow-hidden">
-        {/* Background Media: High-Res Image or Looping Background Video (No dark filter overlay) */}
+        {/* Background Media: User Video, User Uploaded Image, or Clean Gradient (Demo image removed) */}
         {showVideo && heroVideoSrc ? (
           <video
             ref={videoRef}
@@ -89,20 +87,13 @@ export default function Hero({ data }: HeroProps) {
             loop
             muted={isMuted}
             playsInline
-            poster={heroImgSrc}
+            poster={heroImgSrc || undefined}
             className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
           >
             <source src={heroVideoSrc} type="video/mp4" />
             <source src={heroVideoSrc} type="video/webm" />
-            <Image
-              src={heroImgSrc}
-              alt="Kerala backwater houseboat"
-              fill
-              priority
-              className="object-cover object-center"
-            />
           </video>
-        ) : (
+        ) : heroImgSrc ? (
           <Image
             src={heroImgSrc}
             alt="Kerala backwater houseboat"
@@ -110,6 +101,8 @@ export default function Hero({ data }: HeroProps) {
             priority
             className="object-cover object-center"
           />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-sky-950" />
         )}
 
         {/* Mute / Unmute Audio Toggle Button for Background Video */}
