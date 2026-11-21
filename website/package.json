@@ -1,0 +1,29 @@
+{
+  "name": "aqua-holic-website",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Premium Kerala Houseboat & Backwater Tourism Website",
+  "scripts": {
+    "dev": "next dev -p 3000 --webpack",
+    "build": "next build --webpack",
+    "start": "next start -p 3000",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@sanity/image-url": "^2.2.0",
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "autoprefixer": "^10.6.2",
+    "framer-motion": "^14.14.0",
+    "lucide-react": "^1.73.0",
+    "next": "^16.4.6",
+    "next-sanity": "^13.5.1",
+    "postcss": "^8.5.33",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^7.0.2"
+  }
+}

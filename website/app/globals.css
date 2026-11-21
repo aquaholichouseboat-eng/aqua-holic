@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+:root {
+  --font-playfair: 'Playfair Display', serif;
+  --font-poppins: 'Poppins', sans-serif;
+  --color-brand: #0ea5e9;
+  --color-brand-dark: #0369a1;
+  --color-brand-light: #e0f2fe;
+  --color-accent: #f97316;
+  --color-green: #22c55e;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: #f8fafc;
+  color: #1e293b;
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.font-playfair { font-family: 'Playfair Display', serif; }
+.font-poppins  { font-family: 'Poppins', sans-serif; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #0ea5e9; border-radius: 3px; }
+
+/* Hide scrollbar for mobile carousels */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Utilities */
+.shadow-card {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+}
+.shadow-card-hover {
+  box-shadow: 0 4px 24px rgba(14,165,233,0.15), 0 8px 32px rgba(0,0,0,0.1);
+}
+.badge-green  { background: #dcfce7; color: #16a34a; }
+.badge-blue   { background: #e0f2fe; color: #0369a1; }
+.badge-orange { background: #fff7ed; color: #c2410c; }
