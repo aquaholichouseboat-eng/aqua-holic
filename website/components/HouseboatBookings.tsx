@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { houseboats, Houseboat } from '@/data/houseboats';
 import { urlForImage } from '@/lib/sanity/image';
-import WhatsAppIcon from './WhatsAppIcon';
 
 interface HouseboatBookingsProps {
   boats?: Houseboat[];
@@ -67,13 +66,13 @@ export default function HouseboatBookings({
         key={boat.id || boat.slug}
         className="flex-none w-[80vw] max-w-[310px] sm:w-[280px] md:w-auto snap-start flex flex-col"
       >
-        <div className="relative rounded-[22px] overflow-hidden bg-gradient-to-b from-[#1b2621] via-[#141e1a] to-[#0d1411] text-white shadow-lg border border-white/10 hover:border-sky-400/50 flex flex-col h-full group hover:shadow-[0_20px_45px_rgba(14,165,233,0.22)] hover:-translate-y-1.5 transition-all duration-300">
+        <Link
+          href={`/houseboats/${boat.slug}`}
+          aria-label={`View details for ${boat.title}`}
+          className="relative rounded-[22px] overflow-hidden bg-gradient-to-b from-[#1b2621] via-[#141e1a] to-[#0d1411] text-white shadow-lg border border-white/10 hover:border-sky-400/50 flex flex-col h-full group hover:shadow-[0_20px_45px_rgba(14,165,233,0.22)] hover:-translate-y-1.5 transition-all duration-300 cursor-pointer"
+        >
           {/* Photo with natural fade into dark card */}
-          <Link
-            href={`/houseboats/${boat.slug}`}
-            aria-label={`View details for ${boat.title}`}
-            className="block relative h-48 sm:h-52 md:h-44 lg:h-48 w-full overflow-hidden"
-          >
+          <div className="relative h-48 sm:h-52 md:h-44 lg:h-48 w-full overflow-hidden">
             <Image
               src={imgSrc}
               alt={boat.title}
@@ -94,20 +93,15 @@ export default function HouseboatBookings({
             <span className="absolute top-3 right-3 bg-sky-600/85 backdrop-blur-md text-white text-[10px] sm:text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-md border border-white/20">
               {tag}
             </span>
-          </Link>
+          </div>
 
           {/* Card Body */}
           <div className="p-4 sm:p-4.5 flex flex-col flex-1 justify-between gap-3">
             <div className="space-y-2">
               {/* Title */}
-              <Link
-                href={`/houseboats/${boat.slug}`}
-                className="block group-hover:text-sky-300 transition-colors"
-              >
-                <h3 className="font-poppins font-bold text-base sm:text-lg text-white tracking-tight leading-snug line-clamp-1">
-                  {boat.title}
-                </h3>
-              </Link>
+              <h3 className="font-poppins font-bold text-base sm:text-lg text-white group-hover:text-sky-300 transition-colors tracking-tight leading-snug line-clamp-1">
+                {boat.title}
+              </h3>
 
               {/* Specs: Bedrooms & Capacity */}
               <div className="flex items-center gap-2 text-xs text-white/75 flex-wrap">
@@ -151,35 +145,13 @@ export default function HouseboatBookings({
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 shrink-0">
-                {/* WhatsApp Instant Booking CTA */}
-                <a
-                  href={`https://wa.me/919876543210?text=Hello%20AquaHolic,%20I%20am%20interested%20in%20booking%20the%20${encodeURIComponent(
-                    boat.title
-                  )}%20houseboat.`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-[#25D366] hover:bg-[#20ba59] text-white p-2 sm:px-2.5 sm:py-2 rounded-xl text-xs font-semibold flex items-center gap-1 shadow-md transition-colors"
-                  title="Book on WhatsApp"
-                  aria-label={`Book ${boat.title} on WhatsApp`}
-                >
-                  <WhatsAppIcon size={15} className="text-white" />
-                  <span className="hidden xs:inline sm:hidden lg:inline text-[11px]">Book</span>
-                </a>
-
-                {/* View Details Link */}
-                <Link
-                  href={`/houseboats/${boat.slug}`}
-                  aria-label={`View details for ${boat.title}`}
-                  className="text-xs text-sky-400 font-medium group-hover:text-sky-300 flex items-center gap-1 bg-white/5 hover:bg-white/10 px-2.5 py-2 rounded-xl border border-white/10 transition-colors"
-                >
-                  <span>Details</span>
-                  <span>→</span>
-                </Link>
+              <div className="text-xs text-sky-400 font-medium group-hover:text-sky-300 flex items-center gap-1.5 shrink-0">
+                <span>View Details</span>
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       </div>
     );
   };
