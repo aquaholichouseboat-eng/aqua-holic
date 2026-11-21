@@ -48,7 +48,7 @@ export default function Activities({
         </div>
 
         {/* Activities Cards Grid / Responsive Carousel */}
-        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 overflow-x-auto pb-5 pt-1 px-4 sm:px-6 md:px-0 -mx-4 sm:-mx-6 md:mx-0 scrollbar-none snap-x snap-mandatory">
+        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 overflow-x-auto pb-5 pt-1 -mx-4 sm:-mx-6 md:mx-0 scroll-pl-4 sm:scroll-pl-6 md:scroll-pl-0 scrollbar-none snap-x snap-mandatory">
           {displayActivities.map((act) => {
             const fallbackAct = activities.find((a) => a.slug === act.slug || a.id === act.id);
             const fallbackImg =
@@ -72,7 +72,7 @@ export default function Activities({
             return (
               <div
                 key={act.id || act.slug}
-                className="flex-none w-[80vw] max-w-[310px] sm:w-[280px] md:w-auto snap-start flex flex-col"
+                className="flex-none w-[80vw] max-w-[310px] sm:w-[280px] md:w-auto snap-start flex flex-col first:ml-4 sm:first:ml-6 md:first:ml-0 last:mr-4 sm:last:mr-6 md:last:mr-0"
               >
                 <Link
                   href={`/activities/${act.slug}`}
