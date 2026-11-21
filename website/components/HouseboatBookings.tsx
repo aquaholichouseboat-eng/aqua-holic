@@ -231,11 +231,11 @@ export default function HouseboatBookings({
             onClick={() => setActiveCategory('sharing')}
             className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
               activeCategory === 'sharing'
-                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-500/25 scale-[1.02]'
-                : 'bg-white text-slate-700 hover:text-emerald-600 hover:bg-emerald-50/80 border border-slate-200 shadow-xs'
+                ? 'bg-gradient-to-r from-sky-600 to-blue-600 text-white shadow-md shadow-sky-500/25 scale-[1.02]'
+                : 'bg-white text-slate-700 hover:text-sky-600 hover:bg-sky-50/80 border border-slate-200 shadow-xs'
             }`}
           >
-            <span className={`w-2.5 h-2.5 rounded-full ${activeCategory === 'sharing' ? 'bg-white' : 'bg-emerald-600'}`} />
+            <span className={`w-2.5 h-2.5 rounded-full ${activeCategory === 'sharing' ? 'bg-white' : 'bg-sky-600'}`} />
             <span>Sharing Houseboats</span>
             <span
               className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${
@@ -252,11 +252,7 @@ export default function HouseboatBookings({
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-4 sm:mb-5 pb-3 border-b border-slate-200/80">
             <div>
               <div className="flex items-center gap-2">
-                <span
-                  className={`w-2.5 h-2.5 rounded-full ${
-                    activeCategory === 'private' ? 'bg-sky-600' : 'bg-emerald-500'
-                  }`}
-                />
+                <span className="w-2.5 h-2.5 rounded-full bg-sky-600" />
                 <h3 className="font-playfair text-xl sm:text-2xl md:text-3xl font-bold text-slate-800">
                   {activeCategory === 'private' ? (
                     <>
@@ -264,7 +260,7 @@ export default function HouseboatBookings({
                     </>
                   ) : (
                     <>
-                      Sharing <span className="text-emerald-600">Houseboats</span>
+                      Sharing <span className="text-sky-600">Houseboats</span>
                     </>
                   )}
                 </h3>

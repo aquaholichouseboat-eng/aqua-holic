@@ -226,11 +226,11 @@ export default function AllHouseboatsClient({ initialBoats }: AllHouseboatsClien
           onClick={() => setActiveCategory('sharing')}
           className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
             activeCategory === 'sharing'
-              ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-500/25 scale-[1.02]'
-              : 'bg-white text-slate-700 hover:text-emerald-600 hover:bg-emerald-50/80 border border-slate-200 shadow-xs'
+              ? 'bg-gradient-to-r from-sky-600 to-blue-600 text-white shadow-md shadow-sky-500/25 scale-[1.02]'
+              : 'bg-white text-slate-700 hover:text-sky-600 hover:bg-sky-50/80 border border-slate-200 shadow-xs'
           }`}
         >
-          <span className={`w-2.5 h-2.5 rounded-full ${activeCategory === 'sharing' ? 'bg-white' : 'bg-emerald-600'}`} />
+          <span className={`w-2.5 h-2.5 rounded-full ${activeCategory === 'sharing' ? 'bg-white' : 'bg-sky-600'}`} />
           <span>Sharing Houseboats</span>
           <span
             className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${
@@ -245,11 +245,7 @@ export default function AllHouseboatsClient({ initialBoats }: AllHouseboatsClien
       {/* Selected Category Header & Cards Grid */}
       <div className="mb-12">
         <div className="flex items-center gap-2.5 mb-2 pb-2 border-b border-slate-200">
-          <span
-            className={`w-3 h-3 rounded-full ${
-              activeCategory === 'private' ? 'bg-sky-600' : 'bg-emerald-500'
-            }`}
-          />
+          <span className="w-3 h-3 rounded-full bg-sky-600" />
           <h2 className="font-playfair text-2xl sm:text-3xl font-bold text-slate-800">
             {activeCategory === 'private' ? (
               <>
@@ -257,17 +253,11 @@ export default function AllHouseboatsClient({ initialBoats }: AllHouseboatsClien
               </>
             ) : (
               <>
-                Sharing <span className="text-emerald-600">Houseboats</span>
+                Sharing <span className="text-sky-600">Houseboats</span>
               </>
             )}
           </h2>
-          <span
-            className={`text-xs px-2.5 py-0.5 rounded-full font-semibold ml-auto ${
-              activeCategory === 'private'
-                ? 'bg-sky-100 text-sky-700'
-                : 'bg-emerald-100 text-emerald-700'
-            }`}
-          >
+          <span className="text-xs px-2.5 py-0.5 rounded-full font-semibold ml-auto bg-sky-100 text-sky-700">
             {currentBoats.length} {activeCategory === 'private' ? 'Vessels' : 'Packages'}
           </span>
         </div>
