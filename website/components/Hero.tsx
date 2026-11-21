@@ -105,28 +105,6 @@ export default function Hero({ data }: HeroProps) {
           <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-sky-950" />
         )}
 
-        {/* Mute / Unmute Audio Toggle Button for Background Video */}
-        {showVideo && heroVideoSrc && (
-          <button
-            type="button"
-            onClick={toggleMute}
-            aria-label={isMuted ? 'Unmute video audio' : 'Mute video audio'}
-            className="absolute bottom-4 right-4 sm:bottom-6 sm:right-8 z-30 inline-flex items-center gap-1.5 bg-black/55 hover:bg-black/80 backdrop-blur-md text-white text-xs font-semibold px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-full border border-white/20 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
-          >
-            {isMuted ? (
-              <>
-                <VolumeX size={16} className="text-white" />
-                <span className="text-[11px] sm:text-xs">Unmute</span>
-              </>
-            ) : (
-              <>
-                <Volume2 size={16} className="text-sky-300" />
-                <span className="text-[11px] sm:text-xs">Mute</span>
-              </>
-            )}
-          </button>
-        )}
-
         {/* 
           Curved Shape on Top Two Sides + Left & Right Side Border:
           - Deep smooth curved shoulders (92px mobile, 160px desktop)
@@ -234,6 +212,28 @@ export default function Hero({ data }: HeroProps) {
                 <span className="truncate sm:hidden">Call Now</span>
               </a>
             </div>
+
+            {/* Centered Mute / Unmute Audio Toggle Button for Background Video */}
+            {showVideo && heroVideoSrc && (
+              <button
+                type="button"
+                onClick={toggleMute}
+                aria-label={isMuted ? 'Unmute video audio' : 'Mute video audio'}
+                className="mt-3.5 sm:mt-4 inline-flex items-center gap-1.5 bg-black/60 hover:bg-black/80 backdrop-blur-md text-white text-xs font-semibold px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-white/20 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              >
+                {isMuted ? (
+                  <>
+                    <VolumeX size={15} className="text-white" />
+                    <span className="text-[11px] sm:text-xs">Unmute</span>
+                  </>
+                ) : (
+                  <>
+                    <Volume2 size={15} className="text-sky-300 animate-pulse" />
+                    <span className="text-[11px] sm:text-xs text-sky-200">Mute</span>
+                  </>
+                )}
+              </button>
+            )}
           </motion.div>
         </div>
       </div>
