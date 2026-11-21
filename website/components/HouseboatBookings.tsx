@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
@@ -20,14 +21,18 @@ export default function HouseboatBookings({
   highlight,
   subtitle,
 }: HouseboatBookingsProps) {
+  const [activeCategory, setActiveCategory] = useState<'private' | 'sharing'>('private');
+
   const allBoats = boats && boats.length > 0 ? boats : houseboats;
 
-  // Split into 1. Private Houseboats and 2. Sharing Houseboats
+  // Split into Private and Sharing categories
   const privateBoats = allBoats.filter((b) => b.category === 'private' || !b.category).slice(0, 4);
   const sharingBoats =
     allBoats.filter((b) => b.category === 'sharing').length > 0
       ? allBoats.filter((b) => b.category === 'sharing').slice(0, 4)
       : houseboats.filter((b) => b.category === 'sharing').slice(0, 4);
+
+  const currentBoats = activeCategory === 'private' ? privateBoats : sharingBoats;
 
   const sectionTitle = title || 'Houseboat';
   const sectionHighlight = highlight || 'Bookings';
@@ -199,18 +204,75 @@ export default function HouseboatBookings({
           </p>
         </div>
 
-        {/* 1. Category: Private Houseboats */}
-        <div className="mb-12 sm:mb-16">
+        {/* Two Selected Category Buttons: Private Houseboats & Sharing Houseboats */}
+        <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 mb-6 sm:mb-8">
+          <button
+            type="button"
+            onClick={() => setActiveCategory('private')}
+            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
+              activeCategory === 'private'
+                ? 'bg-gradient-to-r from-sky-600 to-blue-600 text-white shadow-md shadow-sky-500/25 scale-[1.02]'
+                : 'bg-white text-slate-700 hover:text-sky-600 hover:bg-sky-50/80 border border-slate-200 shadow-xs'
+            }`}
+          >
+            <span className={`w-2.5 h-2.5 rounded-full ${activeCategory === 'private' ? 'bg-white' : 'bg-sky-600'}`} />
+            <span>Private Houseboats</span>
+            <span
+              className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${
+                activeCategory === 'private' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
+              }`}
+            >
+              {privateBoats.length} Vessels
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveCategory('sharing')}
+            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
+              activeCategory === 'sharing'
+                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-500/25 scale-[1.02]'
+                : 'bg-white text-slate-700 hover:text-emerald-600 hover:bg-emerald-50/80 border border-slate-200 shadow-xs'
+            }`}
+          >
+            <span className={`w-2.5 h-2.5 rounded-full ${activeCategory === 'sharing' ? 'bg-white' : 'bg-emerald-600'}`} />
+            <span>Sharing Houseboats</span>
+            <span
+              className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${
+                activeCategory === 'sharing' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
+              }`}
+            >
+              {sharingBoats.length} Packages
+            </span>
+          </button>
+        </div>
+
+        {/* Selected Category Header & Cards Carousel */}
+        <div className="mb-10 sm:mb-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-4 sm:mb-5 pb-3 border-b border-slate-200/80">
             <div>
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-sky-600"></span>
+                <span
+                  className={`w-2.5 h-2.5 rounded-full ${
+                    activeCategory === 'private' ? 'bg-sky-600' : 'bg-emerald-500'
+                  }`}
+                />
                 <h3 className="font-playfair text-xl sm:text-2xl md:text-3xl font-bold text-slate-800">
-                  Private <span className="text-sky-600">Houseboats</span>
+                  {activeCategory === 'private' ? (
+                    <>
+                      Private <span className="text-sky-600">Houseboats</span>
+                    </>
+                  ) : (
+                    <>
+                      Sharing <span className="text-emerald-600">Houseboats</span>
+                    </>
+                  )}
                 </h3>
               </div>
               <p className="text-slate-500 text-xs sm:text-sm mt-1 max-w-xl">
-                Exclusive full-vessel charter for couples, families, and private groups. Dedicated captain, private chef, and customized cruise itinerary.
+                {activeCategory === 'private'
+                  ? 'Exclusive full-vessel charter for couples, families, and private groups. Dedicated captain, private chef, and customized cruise itinerary.'
+                  : 'Book private AC bedrooms on a shared luxury cruiser. Enjoy the full backwater experience with personal bedroom privacy at budget-friendly rates.'}
               </p>
             </div>
             <div className="flex items-center gap-1.5 text-xs text-sky-600 font-medium md:hidden shrink-0">
@@ -218,34 +280,9 @@ export default function HouseboatBookings({
             </div>
           </div>
 
-          {/* Private Houseboats Cards Carousel / Grid */}
+          {/* Cards Carousel / Grid */}
           <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 overflow-x-auto pb-5 pt-1 px-4 sm:px-6 md:px-0 -mx-4 sm:-mx-6 md:mx-0 scrollbar-none snap-x snap-mandatory">
-            {privateBoats.map(renderBoatCard)}
-          </div>
-        </div>
-
-        {/* 2. Category: Sharing Houseboats (Shown Below Private Category) */}
-        <div className="mb-10 sm:mb-12">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-4 sm:mb-5 pb-3 border-b border-slate-200/80">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                <h3 className="font-playfair text-xl sm:text-2xl md:text-3xl font-bold text-slate-800">
-                  Sharing <span className="text-emerald-600">Houseboats</span>
-                </h3>
-              </div>
-              <p className="text-slate-500 text-xs sm:text-sm mt-1 max-w-xl">
-                Book private AC bedrooms on a shared luxury cruiser. Enjoy the full backwater experience with personal bedroom privacy at budget-friendly rates.
-              </p>
-            </div>
-            <div className="flex items-center gap-1.5 text-xs text-emerald-600 font-medium md:hidden shrink-0">
-              <span>← Swipe left to right to explore →</span>
-            </div>
-          </div>
-
-          {/* Sharing Houseboats Cards Carousel / Grid */}
-          <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 overflow-x-auto pb-5 pt-1 px-4 sm:px-6 md:px-0 -mx-4 sm:-mx-6 md:mx-0 scrollbar-none snap-x snap-mandatory">
-            {sharingBoats.map(renderBoatCard)}
+            {currentBoats.map(renderBoatCard)}
           </div>
         </div>
 
