@@ -99,7 +99,7 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
           </div>
 
           <div className="flex lg:flex-col gap-3 overflow-x-auto pb-2 lg:pb-0">
-            {boat.gallery.map((img, idx) => (
+            {(boat.gallery || []).map((img, idx) => (
               <button
                 key={idx}
                 onClick={() => setActiveImage(img)}
@@ -167,7 +167,7 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3.5 mt-6 pt-6 border-t border-slate-100">
-              {boat.highlights.map((h, i) => (
+              {(boat.highlights || []).map((h, i) => (
                 <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
                   <Sparkles size={16} className="text-sky-500 shrink-0 mt-0.5" />
                   <span>{h}</span>
@@ -182,7 +182,7 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
               What&apos;s Included in Your Cruise
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
-              {boat.inclusions.map((inc, i) => (
+              {(boat.inclusions || []).map((inc, i) => (
                 <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
                   <CheckCircle2 size={18} className="text-emerald-500 shrink-0 mt-0.5" />
                   <span>{inc}</span>
@@ -203,7 +203,7 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
               Freshly prepared live on boat by your private culinary chef. Veg and custom non-veg options available upon request.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
-              {boat.menu.map((item, idx) => (
+              {(boat.menu || []).map((item, idx) => (
                 <div key={idx} className="p-3.5 bg-slate-50 rounded-2xl border border-slate-100 text-xs sm:text-sm text-slate-700">
                   {item}
                 </div>
@@ -266,7 +266,7 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
                           {other.desc}
                         </p>
                         <div className="flex flex-wrap items-center gap-1 mb-1">
-                          {other.chips.slice(0, 2).map((chip) => (
+                          {(other.chips || []).slice(0, 2).map((chip) => (
                             <span
                               key={chip}
                               className="inline-flex items-center bg-white/12 backdrop-blur-md text-white/90 px-1.5 py-0.5 rounded-full text-[8px] sm:text-[10px] font-medium border border-white/10 truncate max-w-full"

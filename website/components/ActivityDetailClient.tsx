@@ -96,7 +96,7 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
           </div>
 
           <div className="flex lg:flex-col gap-3 overflow-x-auto pb-2 lg:pb-0">
-            {act.gallery.map((img, idx) => (
+            {(act.gallery || []).map((img, idx) => (
               <button
                 key={idx}
                 onClick={() => setActiveImage(img)}
@@ -155,7 +155,7 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3.5 mt-6 pt-6 border-t border-slate-100">
-              {act.highlights.map((h, i) => (
+              {(act.highlights || []).map((h, i) => (
                 <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
                   <Sparkles size={16} className="text-sky-500 shrink-0 mt-0.5" />
                   <span>{h}</span>
@@ -170,7 +170,7 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
               What&apos;s Included in Your Package
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
-              {act.inclusions.map((inc, i) => (
+              {(act.inclusions || []).map((inc, i) => (
                 <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
                   <CheckCircle2 size={18} className="text-emerald-500 shrink-0 mt-0.5" />
                   <span>{inc}</span>
@@ -188,7 +188,7 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
               </h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
-              {act.safety.map((item, idx) => (
+              {(act.safety || []).map((item, idx) => (
                 <div key={idx} className="p-3.5 bg-slate-50 rounded-2xl border border-slate-100 text-xs sm:text-sm text-slate-700 flex items-start gap-2.5">
                   <CheckCircle2 size={16} className="text-emerald-500 shrink-0 mt-0.5" />
                   <span>{item}</span>

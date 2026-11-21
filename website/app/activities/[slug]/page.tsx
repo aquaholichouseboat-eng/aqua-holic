@@ -74,6 +74,37 @@ export default async function ActivityPage({
       urlForImage(act.image) ||
       (typeof act.image === 'string' ? act.image : fallbackImg),
     gallery: resolvedGallery.length > 0 ? resolvedGallery : [fallbackImg],
+    chips:
+      act.chips && Array.isArray(act.chips) && act.chips.length > 0
+        ? act.chips
+        : (localAct?.chips || ['Top Rated', 'Verified']),
+    highlights:
+      act.highlights && Array.isArray(act.highlights) && act.highlights.length > 0
+        ? act.highlights
+        : (localAct?.highlights || [
+            'Scenic Backwater Views & Photography Stops',
+            'Government Licensed Marine Pilot & Guide',
+            'High-Grade Coast Guard Approved Lifejackets',
+            'Zero Middleman Markup — Direct Operator Pricing',
+          ]),
+    inclusions:
+      act.inclusions && Array.isArray(act.inclusions) && act.inclusions.length > 0
+        ? act.inclusions
+        : (localAct?.inclusions || [
+            'Certified Lifejackets for All Guests',
+            'Experienced Local Captain & Safety Briefing',
+            'Cruise through Alleppey Scenic Canals',
+            'Mineral Drinking Water',
+          ]),
+    safety:
+      act.safety && Array.isArray(act.safety) && act.safety.length > 0
+        ? act.safety
+        : (localAct?.safety || [
+            'Life Jackets Mandatory for All Ages',
+            'Government Registered & Certified Boat',
+            'First Aid Kit Onboard',
+            'Weather Monitored Departures',
+          ]),
   };
 
   return <ActivityDetailClient act={normalizedAct} />;
