@@ -11,8 +11,12 @@ interface HeroProps {
     heroHeading?: string;
     heroHeadingHighlight?: string;
     heroSubtitle?: string;
+    heroMediaType?: 'image' | 'video';
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     heroImage?: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    heroVideoFile?: any;
+    heroVideoUrl?: string;
     heroFeatures?: string[];
     heroWhatsAppText?: string;
     heroWhatsAppNumber?: string;
@@ -31,6 +35,19 @@ export default function Hero({ data }: HeroProps) {
   const heroImgSrc =
     urlForImage(data?.heroImage) ||
     'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1920&q=85&fit=crop';
+  const heroVideoSrc =
+    data?.heroVideoFile?.asset?.url ||
+    data?.heroVideoUrl ||
+    null;
+
+  // Show video if explicitly selected or if a video is provided and mediaType is not 'image'
+  const showVideo =
+    data?.heroMediaType === 'video'
+      ? Boolean(heroVideoSrc)
+      : data?.heroMediaType === 'image'
+        ? false
+        : Boolean(heroVideoSrc);
+
   const features = data?.heroFeatures && data.heroFeatures.length > 0
     ? data.heroFeatures
     : ['All Meals Included', 'Private & Sharing AC', 'Instant Confirmation'];
@@ -48,17 +65,39 @@ export default function Hero({ data }: HeroProps) {
         - 100% straight flat horizontal baseline at the bottom
       */}
       <div className="relative min-h-[460px] sm:min-h-[520px] md:min-h-[600px] w-full flex items-center justify-center pt-10 pb-10 sm:pt-14 sm:pb-14 md:pt-16 md:pb-16 overflow-hidden">
-        {/* Background Image */}
-        <Image
-          src={heroImgSrc}
-          alt="Kerala backwater houseboat"
-          fill
-          priority
-          className="object-cover object-center"
-        />
+        {/* Background Media: High-Res Image or Looping Background Video */}
+        {showVideo && heroVideoSrc ? (
+          <video
+            key={heroVideoSrc}
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster={heroImgSrc}
+            className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+          >
+            <source src={heroVideoSrc} type="video/mp4" />
+            <source src={heroVideoSrc} type="video/webm" />
+            <Image
+              src={heroImgSrc}
+              alt="Kerala backwater houseboat"
+              fill
+              priority
+              className="object-cover object-center"
+            />
+          </video>
+        ) : (
+          <Image
+            src={heroImgSrc}
+            alt="Kerala backwater houseboat"
+            fill
+            priority
+            className="object-cover object-center"
+          />
+        )}
 
-        {/* Subtle dark overlay for natural photo clarity and sharp text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-black/75" />
+        {/* Subtle dark overlay for natural photo/video clarity and sharp text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-black/75 z-10" />
 
         {/* 
           Curved Shape on Top Two Sides + Left & Right Side Border:

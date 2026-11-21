@@ -4,8 +4,16 @@ export interface HomePageData {
   heroHeading?: string;
   heroHeadingHighlight?: string;
   heroSubtitle?: string;
+  heroMediaType?: 'image' | 'video';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   heroImage?: any;
+  heroVideoFile?: {
+    asset?: {
+      url?: string;
+      mimeType?: string;
+    };
+  };
+  heroVideoUrl?: string;
   heroFeatures?: string[];
   heroWhatsAppText?: string;
   heroWhatsAppNumber?: string;
@@ -36,10 +44,18 @@ export const homePageQuery = groq`
     heroHeading,
     heroHeadingHighlight,
     heroSubtitle,
+    heroMediaType,
     heroImage {
       asset->,
       alt
     },
+    heroVideoFile {
+      asset-> {
+        url,
+        mimeType
+      }
+    },
+    heroVideoUrl,
     heroFeatures,
     heroWhatsAppText,
     heroWhatsAppNumber,

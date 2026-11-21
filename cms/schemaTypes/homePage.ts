@@ -42,11 +42,27 @@ export default defineType({
       validation: (Rule) => Rule.warning('Hero subtitle is recommended'),
     }),
     defineField({
+      name: 'heroMediaType',
+      title: 'Hero Background Media Type',
+      type: 'string',
+      fieldset: 'hero',
+      initialValue: 'image',
+      options: {
+        list: [
+          { title: 'Background Image (Photo)', value: 'image' },
+          { title: 'Background Video (Looping MP4/WebM)', value: 'video' },
+        ],
+        layout: 'radio',
+      },
+      description: 'Choose whether the hero section displays a background photo or a smooth looping video',
+    }),
+    defineField({
       name: 'heroImage',
       title: 'Hero Background Image',
       type: 'image',
       fieldset: 'hero',
       options: { hotspot: true },
+      description: 'Background photo for the hero section (also acts as poster/preview while video loads)',
       fields: [
         {
           name: 'alt',
@@ -54,6 +70,21 @@ export default defineType({
           title: 'Alternative text',
         },
       ],
+    }),
+    defineField({
+      name: 'heroVideoFile',
+      title: 'Hero Background Video File (Upload MP4 / WebM)',
+      type: 'file',
+      fieldset: 'hero',
+      options: { accept: 'video/*' },
+      description: 'Upload a looping video file directly to Sanity CDN',
+    }),
+    defineField({
+      name: 'heroVideoUrl',
+      title: 'Hero Background Video URL (External MP4 / WebM Link)',
+      type: 'url',
+      fieldset: 'hero',
+      description: 'Or provide an external direct video link (e.g. from Cloudinary, S3, or public CDN)',
     }),
     defineField({
       name: 'heroFeatures',
