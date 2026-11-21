@@ -7,10 +7,23 @@ import { urlForImage } from '@/lib/sanity/image';
 
 interface ActivitiesProps {
   items?: Activity[];
+  title?: string;
+  highlight?: string;
+  subtitle?: string;
 }
 
-export default function Activities({ items }: ActivitiesProps) {
+export default function Activities({
+  items,
+  title,
+  highlight,
+  subtitle,
+}: ActivitiesProps) {
   const displayActivities = items && items.length > 0 ? items : activities;
+  const sectionTitle = title || 'Backwater';
+  const sectionHighlight = highlight || 'Activities';
+  const sectionSubtitle =
+    subtitle ||
+    'Experience thrilling speed boats, eco kayaking, scenic shikaras, and open boats across Kerala\'s most beautiful backwaters.';
 
   return (
     <section id="activities" className="relative py-[15px] bg-gradient-to-b from-slate-50 via-sky-50/40 to-slate-50 font-poppins border-t border-slate-100 overflow-hidden">
@@ -23,10 +36,10 @@ export default function Activities({ items }: ActivitiesProps) {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-2 sm:gap-4 mb-[15px]">
           <div>
             <h2 className="font-playfair text-2xl sm:text-4xl md:text-5xl font-bold text-slate-800">
-              Backwater <span className="text-sky-600">Activities</span>
+              {sectionTitle} <span className="text-sky-600">{sectionHighlight}</span>
             </h2>
             <p className="text-slate-500 text-xs sm:text-sm md:text-base mt-1 max-w-xl">
-              Experience thrilling speed boats, eco kayaking, scenic shikaras, and open boats across Kerala&apos;s most beautiful backwaters.
+              {sectionSubtitle}
             </p>
           </div>
           <div className="flex items-center gap-1.5 text-xs text-sky-600 font-medium md:hidden">
@@ -34,14 +47,14 @@ export default function Activities({ items }: ActivitiesProps) {
           </div>
         </div>
 
-        {/* 
-          Activities Cards Grid:
-          - Mobile: 2 full cards + exactly half of 3rd card visible (w = calc((100vw - 40px)/2.5))
-          - Desktop (md:): Clean responsive 4-column grid
-        */}
+        {/* Activities Cards Grid */}
         <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-3.5 overflow-x-auto pb-4 pt-1 px-4 sm:px-6 md:px-0 -mx-4 sm:-mx-6 md:mx-0 scrollbar-none snap-x snap-mandatory">
           {displayActivities.map((act) => {
-            const imgSrc = urlForImage(act.image) || (typeof act.image === 'string' ? act.image : 'https://images.unsplash.com/photo-1605281317010-fe5ffe798166?w=1000&q=80&fit=crop');
+            const imgSrc =
+              urlForImage(act.image) ||
+              (typeof act.image === 'string'
+                ? act.image
+                : 'https://images.unsplash.com/photo-1605281317010-fe5ffe798166?w=1000&q=80&fit=crop');
             return (
               <div
                 key={act.id || act.slug}
@@ -61,7 +74,6 @@ export default function Activities({ items }: ActivitiesProps) {
                       className="object-cover transition-transform duration-700 group-hover:scale-108"
                       sizes="(max-width: 640px) 40vw, 25vw"
                     />
-                    {/* Smooth gradient melt */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#141e1a] via-[#141e1a]/30 to-transparent" />
                   </div>
 

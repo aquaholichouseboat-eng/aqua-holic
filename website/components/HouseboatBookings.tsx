@@ -7,10 +7,23 @@ import { urlForImage } from '@/lib/sanity/image';
 
 interface HouseboatBookingsProps {
   boats?: Houseboat[];
+  title?: string;
+  highlight?: string;
+  subtitle?: string;
 }
 
-export default function HouseboatBookings({ boats }: HouseboatBookingsProps) {
+export default function HouseboatBookings({
+  boats,
+  title,
+  highlight,
+  subtitle,
+}: HouseboatBookingsProps) {
   const displayBoats = (boats && boats.length > 0 ? boats : houseboats).slice(0, 4);
+  const sectionTitle = title || 'Houseboat';
+  const sectionHighlight = highlight || 'Bookings';
+  const sectionSubtitle =
+    subtitle ||
+    'Select your private and sharing houseboat in Alleppey. All bookings include private chef, fuel, government permits, and meals.';
 
   return (
     <section id="houseboats" className="relative py-[15px] bg-gradient-to-b from-slate-50 via-sky-50/40 to-slate-50 font-poppins overflow-hidden">
@@ -23,10 +36,10 @@ export default function HouseboatBookings({ boats }: HouseboatBookingsProps) {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-2 sm:gap-4 mb-[15px]">
           <div>
             <h2 className="font-playfair text-2xl sm:text-4xl md:text-5xl font-bold text-slate-800">
-              Houseboat <span className="text-sky-600">Bookings</span>
+              {sectionTitle} <span className="text-sky-600">{sectionHighlight}</span>
             </h2>
             <p className="text-slate-500 text-xs sm:text-sm md:text-base mt-1 max-w-xl">
-              Select your private and sharing houseboat in Alleppey. All bookings include private chef, fuel, government permits, and meals.
+              {sectionSubtitle}
             </p>
           </div>
           <div className="flex items-center gap-1.5 text-xs text-sky-600 font-medium md:hidden">
@@ -34,14 +47,14 @@ export default function HouseboatBookings({ boats }: HouseboatBookingsProps) {
           </div>
         </div>
 
-        {/* 
-          Cards Grid:
-          - Mobile: 2 full cards + half of 3rd card visible (w = calc((100vw - 40px)/2.5))
-          - Desktop (md:): Clean responsive 4-column grid
-        */}
+        {/* Cards Grid */}
         <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-3.5 overflow-x-auto pb-4 pt-1 px-4 sm:px-6 md:px-0 -mx-4 sm:-mx-6 md:mx-0 scrollbar-none snap-x snap-mandatory">
           {displayBoats.map((boat) => {
-            const imgSrc = urlForImage(boat.image) || (typeof boat.image === 'string' ? boat.image : 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1000&q=80&fit=crop');
+            const imgSrc =
+              urlForImage(boat.image) ||
+              (typeof boat.image === 'string'
+                ? boat.image
+                : 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1000&q=80&fit=crop');
             return (
               <div
                 key={boat.id || boat.slug}
@@ -61,7 +74,6 @@ export default function HouseboatBookings({ boats }: HouseboatBookingsProps) {
                       className="object-cover transition-transform duration-700 group-hover:scale-108"
                       sizes="(max-width: 640px) 40vw, 25vw"
                     />
-                    {/* Smooth gradient melt */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#141e1a] via-[#141e1a]/30 to-transparent" />
                   </div>
 

@@ -49,9 +49,17 @@ const defaultGalleryImages = [
 interface GalleryProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   items?: any[];
+  title?: string;
+  highlight?: string;
+  subtitle?: string;
 }
 
-export default function Gallery({ items }: GalleryProps) {
+export default function Gallery({
+  items,
+  title,
+  highlight,
+  subtitle,
+}: GalleryProps) {
   const images = items && items.length > 0
     ? items.slice(0, 6).map((item, idx) => ({
         src: urlForImage(item.image) || item.src || defaultGalleryImages[idx % defaultGalleryImages.length].src,
@@ -63,16 +71,22 @@ export default function Gallery({ items }: GalleryProps) {
 
   const [selected, setSelected] = useState<null | typeof defaultGalleryImages[0]>(null);
 
+  const sectionTitle = title || 'Kerala Backwaters';
+  const sectionHighlight = highlight || 'Gallery';
+  const sectionSubtitle =
+    subtitle ||
+    'A glimpse into the magical houseboats, tranquil waterways, and authentic experiences of God\'s Own Country.';
+
   return (
     <section id="gallery" className="py-[15px] bg-gradient-to-b from-slate-50 via-sky-50/20 to-slate-50 font-poppins border-t border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-[15px]">
           <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800">
-            Kerala Backwaters <span className="text-sky-600">Gallery</span>
+            {sectionTitle} <span className="text-sky-600">{sectionHighlight}</span>
           </h2>
           <p className="text-slate-500 text-xs sm:text-sm md:text-base mt-2">
-            A glimpse into the magical houseboats, tranquil waterways, and authentic experiences of God&apos;s Own Country.
+            {sectionSubtitle}
           </p>
         </div>
 

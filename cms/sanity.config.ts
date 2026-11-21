@@ -2,7 +2,7 @@ import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { schemaTypes } from './schemaTypes';
 
-const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'aqua-holic-cms';
+const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'id2x5id1';
 const dataset = process.env.SANITY_STUDIO_DATASET || 'production';
 
 export default defineConfig({
@@ -16,97 +16,104 @@ export default defineConfig({
     structureTool({
       structure: (S) =>
         S.list()
-          .title('AQUA_HOLIC CMS Dashboard')
+          .title('AQUA_HOLIC CMS Admin')
           .items([
-            // 1. Dashboard
+            // 1. Homepage & Hero Sections
             S.listItem()
-              .title('1. Dashboard')
-              .id('dashboard')
-              .child(
-                S.document()
-                  .schemaType('websiteSettings')
-                  .documentId('websiteSettings')
-                  .title('Dashboard Overview')
-              ),
-
-            // 2. Homepage Management
-            S.listItem()
-              .title('2. Homepage Management')
+              .title('1. Homepage & Section Headings')
               .id('homePageItem')
               .child(
                 S.document()
                   .schemaType('homePage')
                   .documentId('homePage')
-                  .title('Hero & Homepage Settings')
+                  .title('Hero & Section Headers Editor')
               ),
 
-            // 3. About Us Management
+            // 2. Houseboat Fleet
             S.listItem()
-              .title('3. About Us Management')
-              .id('aboutItem')
-              .child(
-                S.document()
-                  .schemaType('about')
-                  .documentId('about')
-                  .title('About Us & Story')
-              ),
-
-            // 4. Services Management
-            S.listItem()
-              .title('4. Services Management')
-              .schemaType('service')
-              .child(
-                S.documentTypeList('service')
-                  .title('Activities (Speed Boat, Kayak, Shikara, Open Boat)')
-              ),
-
-            // 5. Products Management
-            S.listItem()
-              .title('5. Products Management')
+              .title('2. Houseboat Fleet & Packages')
               .schemaType('product')
               .child(
                 S.documentTypeList('product')
-                  .title('Houseboats Fleet (Deluxe, Premium, Luxury)')
+                  .title('All Houseboats (Deluxe, Premium, Luxury)')
               ),
 
-            // 6. Gallery Management
+            // 3. Backwater Activities
             S.listItem()
-              .title('6. Gallery Management')
+              .title('3. Backwater Activities')
+              .schemaType('service')
+              .child(
+                S.documentTypeList('service')
+                  .title('All Activities (Speed Boat, Kayak, Shikara, Open Boat)')
+              ),
+
+            // 4. Gallery Management
+            S.listItem()
+              .title('4. Photo Gallery')
               .schemaType('galleryItem')
               .child(
                 S.documentTypeList('galleryItem')
                   .title('All Gallery Photographs')
               ),
 
-            // 7. Banner Management
+            // 5. Customer Reviews & Testimonials
             S.listItem()
-              .title('7. Banner Management')
+              .title('5. Customer Reviews & Testimonials')
+              .schemaType('testimonial')
+              .child(
+                S.documentTypeList('testimonial')
+                  .title('All Customer Reviews')
+              ),
+
+            // 6. FAQs Management
+            S.listItem()
+              .title('6. Frequently Asked Questions (FAQ)')
+              .schemaType('faq')
+              .child(
+                S.documentTypeList('faq')
+                  .title('All FAQs')
+              ),
+
+            // 7. About Us
+            S.listItem()
+              .title('7. About Us & Story')
+              .id('aboutItem')
+              .child(
+                S.document()
+                  .schemaType('about')
+                  .documentId('about')
+                  .title('About Us & Company Story')
+              ),
+
+            // 8. Contact Information & Jetty Location
+            S.listItem()
+              .title('8. Contact Details & Jetty Location')
+              .id('contactInfoItem')
+              .child(
+                S.document()
+                  .schemaType('contactInfo')
+                  .documentId('contactInfo')
+                  .title('Hotline, WhatsApp & Jetty Location')
+              ),
+
+            // 9. Promotional Banners
+            S.listItem()
+              .title('9. Promotional Banners & Deals')
               .schemaType('banner')
               .child(
                 S.documentTypeList('banner')
                   .title('Promotional Banners & Deals')
               ),
 
-            // 8. Contact Information
+            // 10. Website Settings
             S.listItem()
-              .title('8. Contact Information')
-              .id('contactInfoItem')
-              .child(
-                S.document()
-                  .schemaType('contactInfo')
-                  .documentId('contactInfo')
-                  .title('Contact Details & Jetty Location')
-              ),
-
-            // 9. Website Settings
-            S.listItem()
-              .title('9. Website Settings')
+              .title('10. Website Settings & Branding')
               .id('websiteSettingsItem')
               .child(
                 S.document()
                   .schemaType('websiteSettings')
                   .documentId('websiteSettings')
-                  .title('Website Settings & Global Branding')
+                  .title('Global Brand Settings & SEO')
               ),
           ]),
     }),

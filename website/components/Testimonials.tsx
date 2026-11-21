@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { Star, Quote, ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react';
 
-const testimonials = [
+const defaultTestimonials = [
   {
     id: 1,
     name: 'Rahul & Priya Sharma',
@@ -67,10 +67,17 @@ const testimonials = [
   },
 ];
 
-// Motion variants for smooth Left-to-Right auto slide
+const avatarColors = [
+  'bg-gradient-to-br from-sky-400 to-blue-600 text-white',
+  'bg-gradient-to-br from-emerald-400 to-teal-600 text-white',
+  'bg-gradient-to-br from-purple-400 to-indigo-600 text-white',
+  'bg-gradient-to-br from-amber-400 to-orange-500 text-white',
+  'bg-gradient-to-br from-rose-400 to-pink-600 text-white',
+];
+
 const slideVariants: Variants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? -100 : 100, // enters from left when moving left-to-right
+    x: direction > 0 ? -100 : 100,
     opacity: 0,
     scale: 0.98,
   }),
@@ -85,7 +92,7 @@ const slideVariants: Variants = {
     },
   },
   exit: (direction: number) => ({
-    x: direction > 0 ? 100 : -100, // exits to right when moving left-to-right
+    x: direction > 0 ? 100 : -100,
     opacity: 0,
     scale: 0.98,
     transition: {
@@ -96,14 +103,33 @@ const slideVariants: Variants = {
   }),
 };
 
-export default function Testimonials() {
+interface TestimonialsProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  items?: any[];
+  title?: string;
+  highlight?: string;
+}
+
+export default function Testimonials({ items, title, highlight }: TestimonialsProps) {
+  const testimonials = (items && items.length > 0 ? items : defaultTestimonials).map((item, idx) => ({
+    id: item._id || item.id || idx + 1,
+    name: item.name || 'Happy Guest',
+    location: item.location || 'India',
+    avatar: item.avatar || (item.name ? item.name.split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase() : 'AG'),
+    avatarBg: avatarColors[idx % avatarColors.length],
+    rating: item.rating || 5,
+    text: item.text,
+    boat: item.boat || 'Kerala Houseboat Cruise',
+    trip: item.trip || 'Backwater Cruise',
+    highlight: item.highlight || '5-Star Experience',
+  }));
+
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(1); // 1 = left to right
+  const [direction, setDirection] = useState(1);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Auto-running timer (advances one by one every 4.5 seconds)
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || testimonials.length <= 1) return;
 
     const timer = setInterval(() => {
       setDirection(1);
@@ -111,7 +137,7 @@ export default function Testimonials() {
     }, 4500);
 
     return () => clearInterval(timer);
-  }, [isPaused, currentIndex]);
+  }, [isPaused, currentIndex, testimonials.length]);
 
   const handlePrev = () => {
     setDirection(-1);
@@ -123,7 +149,10 @@ export default function Testimonials() {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
   };
 
-  const current = testimonials[currentIndex];
+  const current = testimonials[currentIndex] || testimonials[0];
+
+  const sectionTitle = title || 'What Our';
+  const sectionHighlight = highlight || 'Guests Say';
 
   return (
     <section id="reviews" className="relative py-[15px] bg-gradient-to-b from-slate-50 via-sky-50/40 to-slate-50 font-poppins border-t border-slate-100 overflow-hidden">
@@ -135,7 +164,7 @@ export default function Testimonials() {
         {/* Header */}
         <div className="text-center mb-[15px]">
           <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 mb-2.5">
-            What Our <span className="text-sky-600">Guests Say</span>
+            {sectionTitle} <span className="text-sky-600">{sectionHighlight}</span>
           </h2>
           <div className="flex flex-wrap items-center justify-center gap-2.5 text-slate-500 text-xs sm:text-sm">
             <div className="flex">

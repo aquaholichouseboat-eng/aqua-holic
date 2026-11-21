@@ -14,8 +14,10 @@ import {
   houseboatsQuery,
   servicesQuery,
   galleryQuery,
+  testimonialsQuery,
   contactQuery,
   websiteSettingsQuery,
+  HomePageData,
 } from '@/lib/sanity/queries';
 import { houseboats } from '@/data/houseboats';
 import { activities } from '@/data/activities';
@@ -27,15 +29,20 @@ export default async function HomePage() {
     cmsHouseboats,
     cmsActivities,
     cmsGallery,
+    cmsTestimonials,
     contactData,
     settingsData,
   ] = await Promise.all([
-    sanityFetch({ query: homePageQuery, fallback: null }),
+    sanityFetch<HomePageData | null>({ query: homePageQuery, fallback: null }),
     sanityFetch({ query: houseboatsQuery, fallback: houseboats }),
     sanityFetch({ query: servicesQuery, fallback: activities }),
     sanityFetch({ query: galleryQuery, fallback: galleryItems }),
-    sanityFetch({ query: contactQuery, fallback: null }),
-    sanityFetch({ query: websiteSettingsQuery, fallback: null }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    sanityFetch<any[] | null>({ query: testimonialsQuery, fallback: null }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    sanityFetch<any | null>({ query: contactQuery, fallback: null }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    sanityFetch<any | null>({ query: websiteSettingsQuery, fallback: null }),
   ]);
 
   return (
@@ -45,17 +52,36 @@ export default async function HomePage() {
         {/* 1. Hero Section */}
         <Hero data={homePageData || undefined} />
 
-        {/* 2. Services for first Houseboat Bookings (Left to right slide cards) */}
-        <HouseboatBookings boats={cmsHouseboats} />
+        {/* 2. Houseboat Bookings (Left to right slide cards) */}
+        <HouseboatBookings
+          boats={cmsHouseboats}
+          title={homePageData?.houseboatsSectionTitle}
+          highlight={homePageData?.houseboatsSectionHighlight}
+          subtitle={homePageData?.houseboatsSectionSubtitle}
+        />
 
         {/* 3. Services Activities Section (Speed boat, Kayaking, Shikara, Open boat) */}
-        <Activities items={cmsActivities} />
+        <Activities
+          items={cmsActivities}
+          title={homePageData?.activitiesSectionTitle}
+          highlight={homePageData?.activitiesSectionHighlight}
+          subtitle={homePageData?.activitiesSectionSubtitle}
+        />
 
         {/* 4. Gallery Section */}
-        <Gallery items={cmsGallery} />
+        <Gallery
+          items={cmsGallery}
+          title={homePageData?.gallerySectionTitle}
+          highlight={homePageData?.gallerySectionHighlight}
+          subtitle={homePageData?.gallerySectionSubtitle}
+        />
 
         {/* 5. Reviews Section */}
-        <Testimonials />
+        <Testimonials
+          items={cmsTestimonials || undefined}
+          title={homePageData?.testimonialsSectionTitle}
+          highlight={homePageData?.testimonialsSectionHighlight}
+        />
 
         {/* 6. Contact Section */}
         <Contact data={contactData || undefined} />
