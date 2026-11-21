@@ -24,24 +24,24 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
   const [bookingOpen, setBookingOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 font-poppins text-slate-800 pt-20 sm:pt-24 flex flex-col justify-between">
+    <div className="min-h-screen bg-slate-50 font-poppins text-slate-800 pt-20 sm:pt-24 flex flex-col justify-between w-full max-w-full overflow-x-hidden">
       {/* Same Unified Floating Navbar as Index Page */}
       <Navbar />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 flex-1 w-full pb-24">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 flex-1 w-full min-w-0 pb-24">
         {/* Breadcrumb & Quick Back Link */}
         <div className="flex items-center justify-between gap-4 mb-6">
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-400">
-            <Link href="/" className="hover:text-sky-600 transition-colors">Home</Link>
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-400 min-w-0">
+            <Link href="/" className="hover:text-sky-600 transition-colors shrink-0">Home</Link>
             <span>/</span>
-            <Link href="/#activities" className="hover:text-sky-600 transition-colors">Activities</Link>
+            <Link href="/#activities" className="hover:text-sky-600 transition-colors shrink-0">Activities</Link>
             <span>/</span>
-            <span className="text-slate-700 font-medium truncate max-w-[180px] sm:max-w-none">{act.title}</span>
+            <span className="text-slate-700 font-medium truncate max-w-[140px] sm:max-w-none">{act.title}</span>
           </nav>
           <Link
             href="/#activities"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-sky-600 transition-colors bg-white hover:bg-sky-50 px-3 py-1.5 rounded-full border border-slate-200 shadow-xs"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-sky-600 transition-colors bg-white hover:bg-sky-50 px-3 py-1.5 rounded-full border border-slate-200 shadow-xs shrink-0"
           >
             <ArrowLeft size={14} />
             <span>All Activities</span>
@@ -60,7 +60,7 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
                 Safety Certified Equipment
               </span>
             </div>
-            <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800">
+            <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 break-words">
               {act.title}
             </h1>
             <p className="text-slate-500 text-sm sm:text-base mt-2 max-w-2xl leading-relaxed">
@@ -76,8 +76,8 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
         </div>
 
         {/* Gallery Showcase */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-10">
-          <div className="lg:col-span-2 relative h-72 sm:h-96 md:h-[440px] rounded-3xl overflow-hidden shadow-lg border border-slate-200">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-10 w-full min-w-0">
+          <div className="lg:col-span-2 relative h-72 sm:h-96 md:h-[440px] rounded-3xl overflow-hidden shadow-lg border border-slate-200 w-full min-w-0">
             <Image
               src={activeImage}
               alt={act.title}
@@ -95,7 +95,7 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
             </div>
           </div>
 
-          <div className="flex lg:flex-col gap-3 overflow-x-auto pb-2 lg:pb-0">
+          <div className="w-full min-w-0 flex lg:flex-col gap-3 overflow-x-auto pb-2 lg:pb-0 scrollbar-none">
             {(act.gallery || []).map((img, idx) => (
               <button
                 key={idx}
@@ -111,18 +111,18 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
         </div>
 
         {/* Quick Specs Strip */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-12">
-          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex items-center gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-12 w-full min-w-0">
+          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex items-center gap-3 min-w-0">
             <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
               <Clock size={20} />
             </div>
-            <div>
-              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Duration</p>
-              <p className="font-semibold text-sm sm:text-base text-slate-800">{act.duration}</p>
+            <div className="min-w-0">
+              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold truncate">Duration</p>
+              <p className="font-semibold text-sm sm:text-base text-slate-800 truncate">{act.duration}</p>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex items-center gap-3 min-w-0">
             <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
               <Users size={20} />
             </div>

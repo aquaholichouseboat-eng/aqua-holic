@@ -26,24 +26,24 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
   const [bookingOpen, setBookingOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 font-poppins text-slate-800 pt-20 sm:pt-24 flex flex-col justify-between">
+    <div className="min-h-screen bg-slate-50 font-poppins text-slate-800 pt-20 sm:pt-24 flex flex-col justify-between w-full max-w-full overflow-x-hidden">
       {/* Same Unified Floating Navbar as Index Page */}
       <Navbar />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 flex-1 w-full pb-24">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 flex-1 w-full min-w-0 pb-24">
         {/* Breadcrumb & Quick Back Link */}
         <div className="flex items-center justify-between gap-4 mb-6">
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-400">
-            <Link href="/" className="hover:text-sky-600 transition-colors">Home</Link>
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-400 min-w-0">
+            <Link href="/" className="hover:text-sky-600 transition-colors shrink-0">Home</Link>
             <span>/</span>
-            <Link href="/#houseboats" className="hover:text-sky-600 transition-colors">Houseboats</Link>
+            <Link href="/#houseboats" className="hover:text-sky-600 transition-colors shrink-0">Houseboats</Link>
             <span>/</span>
-            <span className="text-slate-700 font-medium truncate max-w-[180px] sm:max-w-none">{boat.title}</span>
+            <span className="text-slate-700 font-medium truncate max-w-[140px] sm:max-w-none">{boat.title}</span>
           </nav>
           <Link
             href="/#houseboats"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-sky-600 transition-colors bg-white hover:bg-sky-50 px-3 py-1.5 rounded-full border border-slate-200 shadow-xs"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-sky-600 transition-colors bg-white hover:bg-sky-50 px-3 py-1.5 rounded-full border border-slate-200 shadow-xs shrink-0"
           >
             <ArrowLeft size={14} />
             <span>All Houseboats</span>
@@ -63,7 +63,7 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
                 <span className="text-slate-400 font-normal">({boat.reviews} reviews)</span>
               </div>
             </div>
-            <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800">
+            <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 break-words">
               {boat.title}
             </h1>
             <p className="text-slate-500 text-sm sm:text-base mt-2 max-w-2xl leading-relaxed">
@@ -79,8 +79,8 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
         </div>
 
         {/* Gallery Showcase */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-10">
-          <div className="lg:col-span-2 relative h-72 sm:h-96 md:h-[440px] rounded-3xl overflow-hidden shadow-lg border border-slate-200">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-10 w-full min-w-0">
+          <div className="lg:col-span-2 relative h-72 sm:h-96 md:h-[440px] rounded-3xl overflow-hidden shadow-lg border border-slate-200 w-full min-w-0">
             <Image
               src={activeImage}
               alt={boat.title}
@@ -98,7 +98,7 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
             </div>
           </div>
 
-          <div className="flex lg:flex-col gap-3 overflow-x-auto pb-2 lg:pb-0">
+          <div className="w-full min-w-0 flex lg:flex-col gap-3 overflow-x-auto pb-2 lg:pb-0 scrollbar-none">
             {(boat.gallery || []).map((img, idx) => (
               <button
                 key={idx}
@@ -113,50 +113,50 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
         </div>
 
         {/* Quick Specs Strip */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-12">
-          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex items-center gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-12 w-full min-w-0">
+          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex items-center gap-3 min-w-0">
             <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
               <BedDouble size={20} />
             </div>
-            <div>
-              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Bedrooms</p>
-              <p className="font-semibold text-sm sm:text-base text-slate-800">{boat.bedrooms} AC Bedroom{boat.bedrooms > 1 ? 's' : ''}</p>
+            <div className="min-w-0">
+              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold truncate">Bedrooms</p>
+              <p className="font-semibold text-sm sm:text-base text-slate-800 truncate">{boat.bedrooms} AC Bedroom{boat.bedrooms > 1 ? 's' : ''}</p>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex items-center gap-3 min-w-0">
             <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
               <Users size={20} />
             </div>
-            <div>
-              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Capacity</p>
-              <p className="font-semibold text-sm sm:text-base text-slate-800">{boat.capacity}</p>
+            <div className="min-w-0">
+              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold truncate">Capacity</p>
+              <p className="font-semibold text-sm sm:text-base text-slate-800 truncate">{boat.capacity}</p>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex items-center gap-3 min-w-0">
             <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
               <Clock size={20} />
             </div>
-            <div>
-              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Check-in / out</p>
-              <p className="font-semibold text-sm sm:text-base text-slate-800">12:00 PM – 9:00 AM</p>
+            <div className="min-w-0">
+              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold truncate">Check-in / out</p>
+              <p className="font-semibold text-sm sm:text-base text-slate-800 truncate">12:00 PM – 9:00 AM</p>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex items-center gap-3 min-w-0">
             <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
               <UtensilsCrossed size={20} />
             </div>
-            <div>
-              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Meal Plan</p>
-              <p className="font-semibold text-sm sm:text-base text-slate-800">All 4 Kerala Meals</p>
+            <div className="min-w-0">
+              <p className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold truncate">Meal Plan</p>
+              <p className="font-semibold text-sm sm:text-base text-slate-800 truncate">All 4 Kerala Meals</p>
             </div>
           </div>
         </div>
 
         {/* Detailed Sections - Full Width Layout without the right side block */}
-        <div className="space-y-8 mb-16">
+        <div className="space-y-8 mb-16 w-full min-w-0">
           {/* Description & Highlights */}
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
             <h2 className="font-playfair text-2xl font-bold text-slate-800 mb-4">
@@ -224,12 +224,12 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
           </div>
 
           {/* Other Houseboats Grid: 2 columns on mobile side by side, 4 columns on desktop */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 w-full min-w-0">
             {houseboats
               .filter((b) => b.slug !== boat.slug)
               .slice(0, 4)
               .map((other) => (
-                <div key={other.id} className="flex flex-col">
+                <div key={other.id} className="flex flex-col min-w-0 w-full">
                   <Link
                     href={`/houseboats/${other.slug}`}
                     aria-label={`View details for ${other.title}`}
