@@ -38,14 +38,14 @@ export default function GalleryPageClient({ initialItems }: GalleryPageClientPro
   const [selected, setSelected] = useState<null | GalleryItem>(null);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-sky-50/20 to-slate-50 font-poppins text-slate-800 pt-20 sm:pt-24 flex flex-col justify-between">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-sky-50/20 to-slate-50 text-slate-800 pt-20 sm:pt-24 flex flex-col justify-between">
       {/* Same Unified Floating Navbar as Index Page */}
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-10 flex-1 w-full pb-20">
         {/* Breadcrumb & Navigation */}
         <div className="flex items-center justify-between gap-4 mb-6">
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-400">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-400 font-medium">
             <Link href="/" className="hover:text-sky-600 transition-colors">
               Home
             </Link>
@@ -67,10 +67,10 @@ export default function GalleryPageClient({ initialItems }: GalleryPageClientPro
             <Sparkles size={13} />
             <span>{items.length} High-Resolution Photos</span>
           </div>
-          <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800">
+          <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-800 leading-[1.2]">
             Kerala Backwaters <span className="text-sky-600">Photo Gallery</span>
           </h1>
-          <p className="text-slate-500 text-xs sm:text-sm md:text-base mt-2 leading-relaxed">
+          <p className="text-slate-500 text-[15px] sm:text-base mt-2 leading-[1.7] max-w-2xl mx-auto">
             Take a visual tour through our private & sharing houseboats, luxury air-conditioned master bedrooms, traditional Kerala culinary feasts, and peaceful village backwaters.
           </p>
         </div>
@@ -101,7 +101,7 @@ export default function GalleryPageClient({ initialItems }: GalleryPageClientPro
 
               {/* Bottom Overlay Title */}
               <div className="absolute inset-0 flex flex-col justify-end p-3 sm:p-4 text-white">
-                <p className="font-poppins font-semibold text-xs sm:text-sm leading-tight text-white drop-shadow-sm">
+                <p className="font-semibold text-xs sm:text-sm leading-tight text-white drop-shadow-sm">
                   {item.title}
                 </p>
                 <div className="flex items-center gap-1 text-sky-300 text-[10px] sm:text-xs font-medium mt-1">
@@ -127,7 +127,7 @@ export default function GalleryPageClient({ initialItems }: GalleryPageClientPro
             href="https://wa.me/919876543210?text=Hello%20AquaHolic,%20I%20saw%20your%20photo%20gallery%20and%20would%20like%20to%20enquire%20about%20booking"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-none inline-flex items-center gap-2 px-6 py-3.5 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full font-semibold text-xs sm:text-sm font-poppins shadow-md transition-all hover:scale-102"
+            className="flex-none inline-flex items-center gap-2 px-6 py-3.5 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full font-semibold text-xs sm:text-sm shadow-md transition-all hover:scale-102"
           >
             <WhatsAppIcon size={18} className="text-white fill-white" />
             <span>Chat on WhatsApp</span>
@@ -168,7 +168,7 @@ export default function GalleryPageClient({ initialItems }: GalleryPageClientPro
               </div>
               <div className="flex items-center justify-between w-full mt-3 px-2">
                 <div>
-                  <p className="text-white font-poppins font-semibold text-base sm:text-lg">
+                  <p className="text-white font-semibold text-base sm:text-lg">
                     {selected.title}
                   </p>
                   <span className="text-sky-400 text-xs font-medium">

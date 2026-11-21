@@ -155,7 +155,7 @@ export default function Testimonials({ items, title, highlight }: TestimonialsPr
   const sectionHighlight = highlight || 'Guests Say';
 
   return (
-    <section id="reviews" className="relative py-[15px] bg-gradient-to-b from-slate-50 via-sky-50/40 to-slate-50 font-poppins border-t border-slate-100 overflow-hidden">
+    <section id="reviews" className="relative py-[15px] bg-gradient-to-b from-slate-50 via-sky-50/40 to-slate-50 border-t border-slate-100 overflow-hidden">
       {/* Ambient background glow spheres */}
       <div className="absolute top-1/3 -left-20 w-80 h-80 bg-sky-200/40 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-blue-200/35 rounded-full blur-3xl pointer-events-none" />
@@ -163,7 +163,7 @@ export default function Testimonials({ items, title, highlight }: TestimonialsPr
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
         <div className="text-center mb-[15px]">
-          <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 mb-2.5">
+          <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-800 mb-2.5 leading-[1.2]">
             {sectionTitle} <span className="text-sky-600">{sectionHighlight}</span>
           </h2>
           <div className="flex flex-wrap items-center justify-center gap-2.5 text-slate-500 text-xs sm:text-sm">
@@ -233,7 +233,7 @@ export default function Testimonials({ items, title, highlight }: TestimonialsPr
                   </div>
 
                   {/* Review Text */}
-                  <p className="text-slate-700 text-base sm:text-lg leading-relaxed font-poppins mb-6 italic">
+                  <p className="text-slate-700 text-[15px] sm:text-base md:text-lg leading-[1.7] mb-6 italic">
                     &ldquo;{current.text}&rdquo;
                   </p>
 

@@ -20,7 +20,7 @@ export default async function AllHouseboatsPage() {
   const boats = cmsBoats && cmsBoats.length > 0 ? cmsBoats : houseboats;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-sky-50/30 to-slate-50 font-poppins text-slate-800 pt-20 sm:pt-24 flex flex-col justify-between">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-sky-50/30 to-slate-50 text-slate-800 pt-20 sm:pt-24 flex flex-col justify-between">
       {/* Unified Floating Navbar */}
       <Navbar />
 

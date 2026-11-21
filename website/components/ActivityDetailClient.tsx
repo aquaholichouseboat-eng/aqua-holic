@@ -24,7 +24,7 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
   const [bookingOpen, setBookingOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 font-poppins text-slate-800 pt-20 sm:pt-24 flex flex-col justify-between w-full max-w-full overflow-x-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-800 pt-20 sm:pt-24 flex flex-col justify-between w-full max-w-full overflow-x-hidden">
       {/* Same Unified Floating Navbar as Index Page */}
       <Navbar />
 
@@ -32,7 +32,7 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 flex-1 w-full min-w-0 pb-24">
         {/* Breadcrumb & Quick Back Link */}
         <div className="flex items-center justify-between gap-4 mb-6">
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-400 min-w-0">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-400 min-w-0 font-medium">
             <Link href="/" className="hover:text-sky-600 transition-colors shrink-0">Home</Link>
             <span>/</span>
             <Link href="/#activities" className="hover:text-sky-600 transition-colors shrink-0">Activities</Link>
@@ -60,10 +60,10 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
                 Safety Certified Equipment
               </span>
             </div>
-            <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 break-words">
+            <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 break-words leading-[1.2]">
               {act.title}
             </h1>
-            <p className="text-slate-500 text-sm sm:text-base mt-2 max-w-2xl leading-relaxed">
+            <p className="text-slate-500 text-[15px] sm:text-base mt-2 max-w-2xl leading-[1.7]">
               {act.desc}
             </p>
           </div>
@@ -147,14 +147,14 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
         <div className="space-y-8 mb-16">
           {/* Description & Highlights */}
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
-            <h2 className="font-playfair text-2xl font-bold text-slate-800 mb-4">
+            <h2 className="font-playfair text-2xl font-semibold text-slate-800 mb-4 leading-[1.2]">
               Activity Overview
             </h2>
-            <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
+            <p className="text-slate-600 leading-[1.7] text-[15px] sm:text-base">
               {act.longDesc}
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3.5 mt-6 pt-6 border-t border-slate-100">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3.5 mt-6 pt-6 border-t border-slate-100 font-medium">
               {(act.highlights || []).map((h, i) => (
                 <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
                   <Sparkles size={16} className="text-sky-500 shrink-0 mt-0.5" />
@@ -166,10 +166,10 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
 
           {/* Inclusions */}
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
-            <h2 className="font-playfair text-2xl font-bold text-slate-800 mb-4">
+            <h2 className="font-playfair text-2xl font-semibold text-slate-800 mb-4 leading-[1.2]">
               What&apos;s Included in Your Package
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 font-medium">
               {(act.inclusions || []).map((inc, i) => (
                 <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
                   <CheckCircle2 size={18} className="text-emerald-500 shrink-0 mt-0.5" />
@@ -183,11 +183,11 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <ShieldCheck size={22} className="text-sky-600" />
-              <h2 className="font-playfair text-2xl font-bold text-slate-800">
+              <h2 className="font-playfair text-2xl font-semibold text-slate-800 leading-[1.2]">
                 Safety Standards
               </h2>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 font-medium">
               {(act.safety || []).map((item, idx) => (
                 <div key={idx} className="p-3.5 bg-slate-50 rounded-2xl border border-slate-100 text-xs sm:text-sm text-slate-700 flex items-start gap-2.5">
                   <CheckCircle2 size={16} className="text-emerald-500 shrink-0 mt-0.5" />
@@ -201,7 +201,7 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
         {/* Other Activities */}
         <div className="border-t border-slate-200 pt-12">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="font-playfair text-2xl font-bold text-slate-800">
+            <h2 className="font-playfair text-2xl font-semibold text-slate-800 leading-[1.2]">
               Explore More Water Activities
             </h2>
             <Link href="/#activities" className="text-xs sm:text-sm font-semibold text-sky-600 hover:underline">
@@ -279,7 +279,7 @@ export default function ActivityDetailClient({ act }: { act: Activity }) {
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 bg-[#25D366] hover:bg-[#20bd5a] text-white py-3 sm:py-3.5 px-3 sm:px-4 rounded-full font-semibold text-xs sm:text-sm font-poppins flex items-center justify-center gap-2 shadow-sm transition-all hover:scale-[1.02] active:scale-98 cursor-pointer"
+            className="flex-1 bg-[#25D366] hover:bg-[#20bd5a] text-white py-3 sm:py-3.5 px-3 sm:px-4 rounded-full font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all hover:scale-[1.02] active:scale-98 cursor-pointer"
           >
             <WhatsAppIcon size={18} className="text-white fill-white shrink-0" />
             <span>Book Now</span>

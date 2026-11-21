@@ -49,10 +49,10 @@ export default function WhyUs() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
           <div>
-            <span className="inline-block bg-sky-50 text-sky-600 text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-3 font-poppins">
+            <span className="inline-block bg-sky-50 text-sky-600 text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-3">
               Why Choose Us
             </span>
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-slate-800">
+            <h2 className="font-playfair text-3xl md:text-4xl font-semibold text-slate-800 leading-[1.2]">
               Kerala&apos;s Most Trusted<br />Houseboat Platform
             </h2>
           </div>
@@ -64,7 +64,7 @@ export default function WhyUs() {
             ].map((s) => (
               <div key={s.label} className="text-center">
                 <p className="font-playfair text-3xl font-bold text-sky-600">{s.value}</p>
-                <p className="text-slate-400 text-xs font-poppins mt-0.5">{s.label}</p>
+                <p className="text-slate-500 text-xs mt-0.5">{s.label}</p>
               </div>
             ))}
           </div>
@@ -84,8 +84,8 @@ export default function WhyUs() {
               <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 ${r.color}`}>
                 <r.icon size={22} />
               </div>
-              <h3 className="font-playfair text-lg font-bold text-slate-800 mb-2">{r.title}</h3>
-              <p className="text-slate-500 text-sm leading-relaxed font-poppins">{r.desc}</p>
+              <h3 className="font-playfair text-lg font-semibold text-slate-800 mb-2 leading-[1.2]">{r.title}</h3>
+              <p className="text-slate-600 text-sm leading-[1.7]">{r.desc}</p>
             </motion.div>
           ))}
         </div>

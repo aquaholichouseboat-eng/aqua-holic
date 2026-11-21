@@ -42,14 +42,14 @@ export default function FAQ() {
     <section id="faq" className="py-16 md:py-24 bg-white border-t border-slate-100">
       <div className="max-w-4xl mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-1.5 bg-sky-50 text-sky-600 text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-3 font-poppins">
+          <div className="inline-flex items-center gap-1.5 bg-sky-50 text-sky-600 text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-3">
             <HelpCircle size={14} />
             Common Queries
           </div>
-          <h2 className="font-playfair text-3xl md:text-4xl font-bold text-slate-800">
+          <h2 className="font-playfair text-3xl md:text-4xl font-semibold text-slate-800 leading-[1.2]">
             Frequently Asked Questions
           </h2>
-          <p className="text-slate-500 text-sm mt-2 font-poppins">
+          <p className="text-slate-500 text-[15px] sm:text-base mt-2 leading-[1.7]">
             Everything you need to know about booking and enjoying your Kerala backwater safari.
           </p>
         </div>
@@ -65,9 +65,9 @@ export default function FAQ() {
                 <button
                   type="button"
                   onClick={() => toggle(i)}
-                  className="w-full flex items-center justify-between p-5 text-left bg-white transition-colors"
+                  className="w-full flex items-center justify-between p-5 text-left bg-white transition-colors cursor-pointer"
                 >
-                  <span className="font-poppins font-semibold text-slate-800 text-base md:text-lg pr-4">
+                  <span className="font-semibold text-slate-800 text-base md:text-lg pr-4">
                     {faq.q}
                   </span>
                   <div
@@ -86,7 +86,7 @@ export default function FAQ() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.25 }}
                     >
-                      <div className="px-5 pb-5 pt-1 text-slate-600 text-sm md:text-base leading-relaxed font-poppins border-t border-slate-50 bg-slate-50/50">
+                      <div className="px-5 pb-5 pt-1 text-slate-600 text-[15px] md:text-base leading-[1.7] border-t border-slate-50 bg-slate-50/50">
                         {faq.a}
                       </div>
                     </motion.div>
@@ -100,14 +100,14 @@ export default function FAQ() {
         {/* Quick query banner */}
         <div className="mt-12 p-6 md:p-8 bg-sky-50 rounded-2xl border border-sky-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div>
-            <h3 className="font-playfair text-xl font-bold text-slate-800">Have questions not listed here?</h3>
-            <p className="text-slate-600 text-sm font-poppins mt-0.5">
+            <h3 className="font-playfair text-xl font-semibold text-slate-800 leading-[1.2]">Have questions not listed here?</h3>
+            <p className="text-slate-600 text-sm mt-0.5 leading-[1.7]">
               Talk directly with our local Alleppey houseboat coordinator.
             </p>
           </div>
           <a
             href="tel:+919876543210"
-            className="px-6 py-3 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-xl text-sm transition-colors shadow-sm whitespace-nowrap font-poppins"
+            className="px-6 py-3 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-xl text-sm transition-colors shadow-sm whitespace-nowrap cursor-pointer"
           >
             Call Us Anytime
           </a>

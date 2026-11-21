@@ -78,14 +78,14 @@ export default function Gallery({
     'A glimpse into the magical houseboats, tranquil waterways, and authentic experiences of God\'s Own Country.';
 
   return (
-    <section id="gallery" className="py-[15px] bg-gradient-to-b from-slate-50 via-sky-50/20 to-slate-50 font-poppins border-t border-slate-100">
+    <section id="gallery" className="py-[15px] bg-gradient-to-b from-slate-50 via-sky-50/20 to-slate-50 border-t border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-[15px]">
-          <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800">
+          <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-800 leading-[1.2]">
             {sectionTitle} <span className="text-sky-600">{sectionHighlight}</span>
           </h2>
-          <p className="text-slate-500 text-xs sm:text-sm md:text-base mt-2">
+          <p className="text-slate-500 text-[15px] sm:text-base mt-2 leading-[1.7]">
             {sectionSubtitle}
           </p>
         </div>
@@ -123,7 +123,7 @@ export default function Gallery({
         <div className="mt-8 text-center">
           <Link
             href="/gallery"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white font-semibold text-xs sm:text-sm rounded-xl shadow-md shadow-sky-600/20 hover:shadow-lg hover:shadow-sky-600/30 transition-all font-poppins hover:-translate-y-0.5 cursor-pointer"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white font-semibold text-xs sm:text-sm rounded-xl shadow-md shadow-sky-600/20 hover:shadow-lg hover:shadow-sky-600/30 transition-all hover:-translate-y-0.5 cursor-pointer"
           >
             <span>View All High-Resolution Photos</span>
             <ArrowRight size={16} />

@@ -165,19 +165,19 @@ export default function Hero({ data }: HeroProps) {
             transition={{ duration: 0.5 }}
             className="flex flex-col items-center"
           >
-            <h1 className="font-playfair text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-3 sm:mb-4 [text-shadow:_0_3px_18px_rgb(0_0_0_/_85%),_0_1px_4px_rgb(0_0_0_/_90%)] max-w-3xl mx-auto">
+            <h1 className="font-playfair text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.2] mb-3 sm:mb-4 [text-shadow:_0_3px_18px_rgb(0_0_0_/_85%),_0_1px_4px_rgb(0_0_0_/_90%)] max-w-3xl mx-auto tracking-tight">
               {heading}<br />
               <span className="text-sky-300 [text-shadow:_0_3px_18px_rgb(0_0_0_/_85%)]">
                 {headingHighlight}
               </span>
             </h1>
 
-            <p className="text-white text-xs sm:text-base md:text-lg font-poppins max-w-md sm:max-w-xl mx-auto mb-5 sm:mb-6 leading-relaxed [text-shadow:_0_2px_12px_rgb(0_0_0_/_90%)]">
+            <p className="text-white text-[15px] sm:text-base md:text-lg max-w-md sm:max-w-xl mx-auto mb-5 sm:mb-6 leading-[1.7] [text-shadow:_0_2px_12px_rgb(0_0_0_/_90%)]">
               {subtitle}
             </p>
 
             {/* Feature bullets */}
-            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-5 text-white text-xs sm:text-sm font-poppins mb-6 sm:mb-8">
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-5 text-white text-xs sm:text-sm mb-6 sm:mb-8">
               {features.map((feat, idx) => (
                 <span
                   key={idx}
@@ -195,7 +195,7 @@ export default function Hero({ data }: HeroProps) {
                 href={`https://wa.me/${waNumber}?text=Hello%20AquaHolic,%20I%20would%20like%20to%20enquire%20about%20houseboat%20booking`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-3 sm:py-3.5 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-xl font-semibold text-xs sm:text-sm md:text-base transition-all shadow-lg shadow-emerald-500/25 hover:-translate-y-0.5 font-poppins cursor-pointer"
+                className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-3 sm:py-3.5 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-xl font-semibold text-xs sm:text-sm md:text-base transition-all shadow-lg shadow-emerald-500/25 hover:-translate-y-0.5 cursor-pointer"
               >
                 <WhatsAppIcon size={17} className="text-white fill-white flex-shrink-0" />
                 <span className="truncate hidden sm:inline">Chat on WhatsApp</span>
@@ -205,7 +205,7 @@ export default function Hero({ data }: HeroProps) {
               {/* Right Side: Call Button */}
               <a
                 href={`tel:${callNumber}`}
-                className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-3 sm:py-3.5 bg-white/95 hover:bg-white text-slate-800 rounded-xl font-semibold text-xs sm:text-sm md:text-base transition-all backdrop-blur-sm hover:-translate-y-0.5 font-poppins shadow-md cursor-pointer"
+                className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-3 sm:py-3.5 bg-white/95 hover:bg-white text-slate-800 rounded-xl font-semibold text-xs sm:text-sm md:text-base transition-all backdrop-blur-sm hover:-translate-y-0.5 shadow-md cursor-pointer"
               >
                 <Phone size={15} className="text-sky-600 flex-shrink-0" />
                 <span className="truncate hidden sm:inline">{callText}</span>
@@ -254,8 +254,8 @@ export default function Hero({ data }: HeroProps) {
                 <Icon size={16} className="text-sky-600 sm:w-4 sm:h-4" />
               </div>
               <div className="min-w-0">
-                <p className="text-slate-800 text-[11px] sm:text-xs font-semibold font-poppins leading-tight truncate">{label}</p>
-                <p className="text-slate-500 text-[10px] sm:text-[11px] font-poppins truncate">{desc}</p>
+                <p className="text-slate-800 text-[11px] sm:text-xs font-semibold leading-tight truncate">{label}</p>
+                <p className="text-slate-500 text-[10px] sm:text-[11px] font-normal truncate">{desc}</p>
               </div>
             </div>
           ))}

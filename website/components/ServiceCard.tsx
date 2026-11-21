@@ -90,15 +90,15 @@ export default function ServiceCard({
             Kerala Safari
           </div>
 
-          <h3 className="font-playfair text-base sm:text-xl md:text-2xl font-bold text-white mb-1 leading-tight group-hover:text-sky-200 transition-colors">
+          <h3 className="font-playfair text-base sm:text-xl md:text-2xl font-semibold text-white mb-1 leading-[1.2] group-hover:text-sky-200 transition-colors">
             {title}
           </h3>
 
-          <p className="text-white/80 text-[11px] sm:text-xs md:text-sm font-poppins leading-relaxed line-clamp-2 md:line-clamp-none mb-2">
+          <p className="text-white/80 text-[11px] sm:text-xs md:text-sm leading-[1.7] line-clamp-2 md:line-clamp-none mb-2">
             {description}
           </p>
 
-          <div className="hidden sm:flex items-center gap-1.5 text-sky-300 text-xs font-semibold font-poppins group-hover:translate-x-1 transition-transform">
+          <div className="hidden sm:flex items-center gap-1.5 text-sky-300 text-xs font-semibold group-hover:translate-x-1 transition-transform">
             <span>View Boats</span>
             <ArrowUpRight size={13} />
           </div>

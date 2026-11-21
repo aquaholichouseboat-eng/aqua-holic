@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --font-playfair: 'Playfair Display', serif;
-  --font-poppins: 'Poppins', sans-serif;
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-playfair: 'Playfair Display', Georgia, serif;
+  --font-poppins: var(--font-inter);
   --color-brand: #0ea5e9;
   --color-brand-dark: #0369a1;
   --color-brand-light: #e0f2fe;
@@ -17,13 +18,41 @@ html { scroll-behavior: smooth; }
 body {
   background-color: #f8fafc;
   color: #1e293b;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  letter-spacing: -0.011em;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-.font-playfair { font-family: 'Playfair Display', serif; }
-.font-poppins  { font-family: 'Poppins', sans-serif; }
+@media (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+.font-playfair {
+  font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
+}
+
+.font-inter {
+  font-family: var(--font-inter), 'Inter', sans-serif;
+}
+
+/* Backward compatibility alias: gracefully points to Inter */
+.font-poppins {
+  font-family: var(--font-inter), 'Inter', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+}
+
+p {
+  line-height: 1.7;
+}
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }

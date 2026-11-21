@@ -6,7 +6,7 @@ export default function FloatingWhatsApp() {
   return (
     <aside aria-label="WhatsApp quick chat" className="fixed bottom-5 right-5 z-40 flex items-center group">
       {/* Tooltip / Label */}
-      <span className="hidden sm:inline-block mr-2.5 px-3 py-1.5 bg-slate-900/90 text-white text-xs font-poppins font-medium rounded-full shadow-lg backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+      <span className="hidden sm:inline-block mr-2.5 px-3 py-1.5 bg-slate-900/90 text-white text-xs font-medium rounded-full shadow-lg backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
         Chat on WhatsApp
       </span>
 

@@ -99,12 +99,12 @@ export default function HouseboatBookings({
           <div className="p-4 sm:p-4.5 flex flex-col flex-1 justify-between gap-3">
             <div className="space-y-2">
               {/* Title */}
-              <h3 className="font-poppins font-bold text-base sm:text-lg text-white group-hover:text-sky-300 transition-colors tracking-tight leading-snug line-clamp-1">
+              <h3 className="font-semibold text-base sm:text-lg text-white group-hover:text-sky-300 transition-colors tracking-tight leading-snug line-clamp-1">
                 {boat.title}
               </h3>
 
               {/* Specs: Bedrooms & Capacity */}
-              <div className="flex items-center gap-2 text-xs text-white/75 flex-wrap">
+              <div className="flex items-center gap-2 text-xs text-white/75 flex-wrap font-medium">
                 <span className="inline-flex items-center gap-1 bg-white/5 border border-white/10 px-2 py-0.5 rounded-md text-[11px]">
                   🛏️ {bedrooms} {bedrooms === 1 ? 'Bed' : 'Beds'}
                 </span>
@@ -139,13 +139,13 @@ export default function HouseboatBookings({
                 <span className="text-[10px] text-white/50 block font-normal uppercase tracking-wider">
                   Starts From
                 </span>
-                <div className="text-sky-400 font-bold text-base sm:text-lg leading-tight">
+                <div className="text-sky-400 font-bold text-base sm:text-lg leading-tight font-playfair">
                   ₹{price.toLocaleString('en-IN')}
-                  <span className="text-[11px] text-white/60 font-normal"> {unit}</span>
+                  <span className="text-[11px] text-white/60 font-normal font-sans"> {unit}</span>
                 </div>
               </div>
 
-              <div className="text-xs text-sky-400 font-medium group-hover:text-sky-300 flex items-center gap-1.5 shrink-0">
+              <div className="text-xs text-sky-400 font-semibold group-hover:text-sky-300 flex items-center gap-1.5 shrink-0">
                 <span>View Details</span>
                 <span className="group-hover:translate-x-1 transition-transform">→</span>
               </div>
@@ -157,7 +157,7 @@ export default function HouseboatBookings({
   };
 
   return (
-    <section id="houseboats" className="relative py-12 sm:py-16 bg-gradient-to-b from-slate-50 via-sky-50/40 to-slate-50 font-poppins overflow-hidden">
+    <section id="houseboats" className="relative py-12 sm:py-16 bg-gradient-to-b from-slate-50 via-sky-50/40 to-slate-50 overflow-hidden">
       {/* Ambient background light spheres */}
       <div className="absolute top-1/4 right-4 sm:right-12 w-72 sm:w-96 h-72 sm:h-96 bg-blue-300/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 left-4 sm:left-12 w-72 sm:w-96 h-72 sm:h-96 bg-sky-300/25 rounded-full blur-3xl pointer-events-none" />
@@ -168,10 +168,10 @@ export default function HouseboatBookings({
           <span className="text-[11px] uppercase tracking-widest text-sky-700 font-semibold bg-sky-100/80 px-3.5 py-1 rounded-full border border-sky-200">
             Alleppey Houseboat Fleet
           </span>
-          <h2 className="font-playfair text-2xl sm:text-4xl md:text-5xl font-bold text-slate-800 mt-2.5">
+          <h2 className="font-playfair text-2xl sm:text-4xl md:text-5xl font-semibold text-slate-800 mt-2.5 leading-[1.2]">
             {sectionTitle} <span className="text-sky-600">{sectionHighlight}</span>
           </h2>
-          <p className="text-slate-500 text-xs sm:text-sm md:text-base mt-2">
+          <p className="text-slate-500 text-[15px] sm:text-base mt-2 leading-[1.7]">
             {sectionSubtitle}
           </p>
         </div>
@@ -247,7 +247,7 @@ export default function HouseboatBookings({
             <div>
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-sky-600" />
-                <h3 className="font-playfair text-xl sm:text-2xl md:text-3xl font-bold text-slate-800">
+                <h3 className="font-playfair text-xl sm:text-2xl md:text-3xl font-semibold text-slate-800 leading-[1.2]">
                   {activeCategory === 'private' ? (
                     <>
                       Private <span className="text-sky-600">Houseboats</span>

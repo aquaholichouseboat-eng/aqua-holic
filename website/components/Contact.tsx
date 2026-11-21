@@ -30,14 +30,14 @@ export default function Contact({ data }: ContactProps) {
   const workingHours = data?.workingHours || '6:00 AM – 10:00 PM Daily';
 
   return (
-    <section id="contact" className="py-[15px] bg-gradient-to-b from-slate-50 via-sky-50/30 to-slate-50 font-poppins border-t border-slate-100">
+    <section id="contact" className="py-[15px] bg-gradient-to-b from-slate-50 via-sky-50/30 to-slate-50 border-t border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-[15px]">
-          <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800">
+          <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-800 leading-[1.2]">
             Get in Touch with <span className="text-sky-600">AquaHolic</span>
           </h2>
-          <p className="text-slate-500 text-xs sm:text-sm md:text-base mt-2">
+          <p className="text-slate-500 text-[15px] sm:text-base mt-2 leading-[1.7]">
             No login required. Reach us directly via WhatsApp, direct call, or email for instant houseboat quotes and availability.
           </p>
         </div>
@@ -53,10 +53,10 @@ export default function Contact({ data }: ContactProps) {
               <span className="text-[#25D366] text-xs font-semibold uppercase tracking-wider block mb-1">
                 Fastest Response
               </span>
-              <h3 className="font-playfair text-xl font-bold text-slate-800 mb-2">
+              <h3 className="font-playfair text-xl font-semibold text-slate-800 mb-2 leading-[1.2]">
                 Chat on WhatsApp
               </h3>
-              <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-6">
+              <p className="text-slate-500 text-xs sm:text-sm leading-[1.7] mb-6">
                 Receive live houseboat photos, customized itineraries, and instant quotes directly on WhatsApp.
               </p>
             </div>
@@ -80,10 +80,10 @@ export default function Contact({ data }: ContactProps) {
               <span className="text-sky-600 text-xs font-semibold uppercase tracking-wider block mb-1">
                 Call Our Coordinator
               </span>
-              <h3 className="font-playfair text-xl font-bold text-slate-800 mb-2">
+              <h3 className="font-playfair text-xl font-semibold text-slate-800 mb-2 leading-[1.2]">
                 Direct Phone Call
               </h3>
-              <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-2">
+              <p className="text-slate-500 text-xs sm:text-sm leading-[1.7] mb-2">
                 Speak directly with our Alleppey cruise manager for same-day bookings and special dietary requests.
               </p>
               <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-6">
@@ -93,7 +93,7 @@ export default function Contact({ data }: ContactProps) {
             </div>
             <a
               href={`tel:${phoneRaw}`}
-              className="flex items-center justify-center gap-2 w-full py-3 bg-sky-500 hover:bg-sky-600 text-white rounded-xl font-semibold text-sm transition-all shadow-md shadow-sky-500/20 hover:shadow-sky-500/35"
+              className="flex items-center justify-center gap-2 w-full py-3 bg-sky-500 hover:bg-sky-600 text-white rounded-xl font-semibold text-sm transition-all shadow-md shadow-sky-500/20 hover:shadow-sky-500/35 cursor-pointer"
             >
               <Phone size={16} />
               <span>Call {phone}</span>
@@ -109,7 +109,7 @@ export default function Contact({ data }: ContactProps) {
               <span className="text-amber-600 text-xs font-semibold uppercase tracking-wider block mb-1">
                 Boarding Jetty &amp; Email
               </span>
-              <h3 className="font-playfair text-xl font-bold text-slate-800 mb-2">
+              <h3 className="font-playfair text-xl font-semibold text-slate-800 mb-2 leading-[1.2]">
                 {addressTitle}
               </h3>
               <p className="text-slate-700 font-medium text-xs sm:text-sm mb-1">

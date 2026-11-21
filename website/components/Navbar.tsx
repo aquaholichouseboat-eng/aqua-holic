@@ -85,20 +85,20 @@ export default function Navbar() {
             }}
             className="flex items-center gap-2 group"
           >
-            <span className="font-poppins font-bold text-lg sm:text-xl text-sky-600 tracking-tight group-hover:text-sky-700 transition-colors">
+            <span className="font-bold text-lg sm:text-xl text-sky-600 tracking-tight group-hover:text-sky-700 transition-colors">
               AquaHolic
             </span>
           </a>
 
           {/* Center: Desktop Navigation Links with Theme Blue Sliding Pill */}
-          <nav className="hidden lg:flex items-center gap-1 font-poppins">
+          <nav className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => {
               const isActive = activeTab === item.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => scrollTo(item.id, item.href)}
-                  className={`relative px-4 py-1.5 rounded-full text-xs font-semibold transition-colors duration-200 flex items-center gap-1.5 cursor-pointer ${isActive ? 'text-white' : 'text-slate-600 hover:text-sky-600'
+                  className={`relative px-4 py-1.5 rounded-full text-xs font-medium transition-colors duration-200 flex items-center gap-1.5 cursor-pointer ${isActive ? 'text-white' : 'text-slate-600 hover:text-sky-600'
                     }`}
                 >
                   {isActive && (
@@ -111,7 +111,7 @@ export default function Navbar() {
                   <span className="relative z-10">{item.label}</span>
                   {item.count && (
                     <span
-                      className={`relative z-10 w-4 h-4 rounded-full text-[10px] font-bold flex items-center justify-center transition-colors ${isActive ? 'bg-white/25 text-white' : 'bg-slate-200 text-slate-700'
+                      className={`relative z-10 w-4 h-4 rounded-full text-[10px] font-semibold flex items-center justify-center transition-colors ${isActive ? 'bg-white/25 text-white' : 'bg-slate-200 text-slate-700'
                         }`}
                     >
                       {item.count}
@@ -126,14 +126,14 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-3">
             <a
               href="tel:+919876543210"
-              className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 hover:text-sky-600 font-poppins transition-colors"
+              className="flex items-center gap-1.5 text-xs font-medium text-slate-700 hover:text-sky-600 transition-colors"
             >
               <Phone size={13} className="text-sky-600" />
               <span>+91 98765 43210</span>
             </a>
             <button
               onClick={() => scrollTo('houseboats', '#houseboats')}
-              className="px-4 py-1.5 bg-sky-500 hover:bg-sky-600 text-white rounded-full text-xs font-semibold font-poppins transition-all shadow-xs cursor-pointer"
+              className="px-4 py-1.5 bg-sky-500 hover:bg-sky-600 text-white rounded-full text-xs font-semibold transition-all shadow-xs cursor-pointer"
             >
               Book Now
             </button>
@@ -158,7 +158,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.98 }}
             transition={{ duration: 0.2 }}
-            className="fixed top-16 sm:top-18 left-3 right-3 sm:left-6 sm:right-6 z-50 bg-white/98 backdrop-blur-xl rounded-3xl border border-slate-200/90 shadow-2xl p-4 sm:p-5 max-w-md mx-auto font-poppins"
+            className="fixed top-16 sm:top-18 left-3 right-3 sm:left-6 sm:right-6 z-50 bg-white/98 backdrop-blur-xl rounded-3xl border border-slate-200/90 shadow-2xl p-4 sm:p-5 max-w-md mx-auto"
           >
             <div className="flex flex-col gap-1.5">
               {navItems.map((item) => {
@@ -167,7 +167,7 @@ export default function Navbar() {
                   <button
                     key={item.id}
                     onClick={() => scrollTo(item.id, item.href)}
-                    className={`flex items-center justify-between px-4 py-2.5 rounded-2xl text-sm font-semibold transition-all cursor-pointer ${isActive ? 'bg-sky-500 text-white shadow-xs' : 'text-slate-700 hover:bg-sky-50 hover:text-sky-700'
+                    className={`flex items-center justify-between px-4 py-2.5 rounded-2xl text-sm font-medium transition-all cursor-pointer ${isActive ? 'bg-sky-500 text-white shadow-xs font-semibold' : 'text-slate-700 hover:bg-sky-50 hover:text-sky-700'
                       }`}
                   >
                     <span>{item.label}</span>

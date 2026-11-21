@@ -76,7 +76,7 @@ export default function Services() {
   const [selectedBooking, setSelectedBooking] = useState<BookingTarget | null>(null);
 
   return (
-    <section id="services" className="py-14 md:py-24 bg-slate-900 text-white relative overflow-hidden font-poppins">
+    <section id="services" className="py-14 md:py-24 bg-slate-900 text-white relative overflow-hidden">
       {/* Background ambient lighting */}
       <div
         className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full pointer-events-none"
@@ -101,10 +101,10 @@ export default function Services() {
               <Sparkles size={13} className="text-sky-400" />
               Houseboat Packages with Activities
             </div>
-            <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-white">
+            <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[1.2]">
               Houseboat Bookings & <span className="text-sky-400">Full Activities</span>
             </h2>
-            <p className="text-slate-400 text-xs sm:text-sm md:text-base mt-2 max-w-2xl">
+            <p className="text-slate-400 text-[15px] sm:text-base mt-2 max-w-2xl leading-[1.7]">
               Every houseboat stay includes cruising, private chef meals, and authentic Kerala backwater village activities.
             </p>
           </div>
@@ -208,7 +208,7 @@ export default function Services() {
                         type: 'Overnight Houseboat with Full Activities',
                       })
                     }
-                    className="w-full py-2.5 sm:py-3 bg-sky-500 hover:bg-sky-600 text-white rounded-xl font-semibold text-xs sm:text-sm font-poppins shadow-md shadow-sky-500/20 transition-all flex items-center justify-center gap-2 mt-2"
+                    className="w-full py-2.5 sm:py-3 bg-sky-500 hover:bg-sky-600 text-white rounded-xl font-semibold text-xs sm:text-sm shadow-md shadow-sky-500/20 transition-all flex items-center justify-center gap-2 mt-2 cursor-pointer"
                   >
                     <span>Book Houseboat</span>
                     <ArrowRight size={14} />

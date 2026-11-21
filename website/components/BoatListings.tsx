@@ -149,16 +149,16 @@ function BoatCard({ boat, onBook }: { boat: Boat; onBook: (b: Boat) => void }) {
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         {/* Tag */}
-        <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold font-poppins ${boat.tagColor}`}>
+        <div className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold ${boat.tagColor}`}>
           {boat.tag}
         </div>
         {/* Instant badge */}
-        <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-[10px] font-semibold text-sky-600 font-poppins">
+        <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-[10px] font-semibold text-sky-600">
           <Zap size={10} className="fill-sky-500 text-sky-500" />
           Instant Confirm
         </div>
         {/* Rating overlay */}
-        <div className="absolute bottom-3 left-3 flex items-center gap-1 bg-black/50 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-xs font-poppins">
+        <div className="absolute bottom-3 left-3 flex items-center gap-1 bg-black/50 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-xs">
           <Star size={11} className="fill-yellow-400 text-yellow-400" />
           <span className="font-semibold">{boat.rating}</span>
           <span className="text-white/70">({boat.reviews})</span>
@@ -168,7 +168,7 @@ function BoatCard({ boat, onBook }: { boat: Boat; onBook: (b: Boat) => void }) {
       {/* Content */}
       <div className="p-5 flex flex-col flex-1">
         {/* Meta */}
-        <div className="flex items-center gap-3 text-xs text-slate-400 font-poppins mb-2">
+        <div className="flex items-center gap-3 text-xs text-slate-400 mb-2">
           {boat.bedrooms > 0 && (
             <span className="flex items-center gap-1"><BedDouble size={12} /> {boat.bedrooms} Bedroom{boat.bedrooms > 1 ? 's' : ''}</span>
           )}
@@ -180,12 +180,12 @@ function BoatCard({ boat, onBook }: { boat: Boat; onBook: (b: Boat) => void }) {
         </div>
 
         <h3 className="font-playfair text-lg font-bold text-slate-800 mb-1 leading-tight">{boat.name}</h3>
-        <p className="text-sky-600 text-xs font-medium font-poppins mb-4">{boat.highlight}</p>
+        <p className="text-sky-600 text-xs font-medium mb-4">{boat.highlight}</p>
 
         {/* Inclusions */}
         <div className="grid grid-cols-2 gap-1.5 mb-5">
           {boat.includes.map((inc) => (
-            <div key={inc} className="flex items-center gap-1.5 text-xs text-slate-600 font-poppins">
+            <div key={inc} className="flex items-center gap-1.5 text-xs text-slate-600">
               <CheckCircle size={12} className="text-green-500 flex-shrink-0" />
               {inc}
             </div>
@@ -197,22 +197,22 @@ function BoatCard({ boat, onBook }: { boat: Boat; onBook: (b: Boat) => void }) {
           <div>
             {boat.priceNight > 0 && (
               <div>
-                <p className="text-[10px] text-slate-400 font-poppins">Starting from</p>
+                <p className="text-[10px] text-slate-400">Starting from</p>
                 <div className="flex items-baseline gap-1">
                   <span className="font-playfair text-2xl font-bold text-slate-800">₹{boat.priceNight.toLocaleString('en-IN')}</span>
-                  <span className="text-xs text-slate-400 font-poppins">/night</span>
+                  <span className="text-xs text-slate-400">/night</span>
                 </div>
                 {boat.priceDay > 0 && (
-                  <p className="text-xs text-slate-400 font-poppins">Day cruise from ₹{boat.priceDay.toLocaleString('en-IN')}</p>
+                  <p className="text-xs text-slate-400">Day cruise from ₹{boat.priceDay.toLocaleString('en-IN')}</p>
                 )}
               </div>
             )}
             {boat.priceNight === 0 && (
               <div>
-                <p className="text-[10px] text-slate-400 font-poppins">Starting from</p>
+                <p className="text-[10px] text-slate-400">Starting from</p>
                 <div className="flex items-baseline gap-1">
                   <span className="font-playfair text-2xl font-bold text-slate-800">₹{boat.priceDay.toLocaleString('en-IN')}</span>
-                  <span className="text-xs text-slate-400 font-poppins">/day</span>
+                  <span className="text-xs text-slate-400">/day</span>
                 </div>
               </div>
             )}
@@ -220,7 +220,7 @@ function BoatCard({ boat, onBook }: { boat: Boat; onBook: (b: Boat) => void }) {
 
           <button
             onClick={() => onBook(boat)}
-            className="flex items-center gap-2 px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white rounded-xl font-semibold text-sm transition-colors shadow-md shadow-sky-100 font-poppins flex-shrink-0"
+            className="flex items-center gap-2 px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white rounded-xl font-semibold text-sm transition-colors shadow-md shadow-sky-100 flex-shrink-0"
           >
             Book Now <ArrowRight size={15} />
           </button>
@@ -238,13 +238,13 @@ export default function BoatListings() {
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="inline-block bg-sky-50 text-sky-600 text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-3 font-poppins">
+          <span className="inline-block bg-sky-50 text-sky-600 text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-3">
             Our Fleet
           </span>
           <h2 className="font-playfair text-3xl md:text-4xl font-bold text-slate-800">
             Available Houseboats & Packages
           </h2>
-          <p className="text-slate-500 text-sm mt-2 font-poppins">
+          <p className="text-slate-500 text-sm mt-2">
             Handpicked luxury houseboats in Alleppey · All prices include private chef, fuel & taxes
           </p>
         </div>
@@ -292,9 +292,9 @@ function BookingModal({ boat, onClose }: { boat: Boat; onClose: () => void }) {
         {/* Modal header */}
         <div className="bg-sky-500 p-5 relative">
           <button onClick={onClose} className="absolute top-4 right-4 text-white/70 hover:text-white p-1">✕</button>
-          <p className="text-sky-100 text-xs font-poppins mb-1">Booking Request</p>
+          <p className="text-sky-100 text-xs mb-1">Booking Request</p>
           <h3 className="font-playfair text-xl font-bold text-white">{boat.name}</h3>
-          <p className="text-sky-100 text-sm font-poppins mt-1">
+          <p className="text-sky-100 text-sm mt-1">
             From ₹{(boat.priceNight || boat.priceDay).toLocaleString('en-IN')}
             {boat.priceNight > 0 ? '/night' : '/day'} · {boat.type}
           </p>
@@ -307,59 +307,59 @@ function BookingModal({ boat, onClose }: { boat: Boat; onClose: () => void }) {
                 <CheckCircle size={28} className="text-green-500" />
               </div>
               <h4 className="font-playfair text-xl font-bold text-slate-800 mb-2">Request Sent!</h4>
-              <p className="text-slate-500 text-sm font-poppins mb-5">
+              <p className="text-slate-500 text-sm mb-5">
                 Our team will call you within 30 minutes to confirm your booking.
               </p>
-              <button onClick={onClose} className="px-6 py-2.5 bg-sky-500 text-white rounded-xl font-semibold text-sm font-poppins">
+              <button onClick={onClose} className="px-6 py-2.5 bg-sky-500 text-white rounded-xl font-semibold text-sm">
                 Done
               </button>
             </div>
           ) : (
             <form onSubmit={submit} className="flex flex-col gap-4">
               <div>
-                <label className="text-xs text-slate-500 font-poppins font-semibold uppercase tracking-wider block mb-1.5">Your Name *</label>
+                <label className="text-xs text-slate-500 font-semibold uppercase tracking-wider block mb-1.5">Your Name *</label>
                 <input required type="text" placeholder="Full name" value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-poppins focus:outline-none focus:border-sky-400 text-slate-800 placeholder:text-slate-300"
+                  className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-sky-400 text-slate-800 placeholder:text-slate-300"
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-slate-500 font-poppins font-semibold uppercase tracking-wider block mb-1.5">Phone *</label>
+                  <label className="text-xs text-slate-500 font-semibold uppercase tracking-wider block mb-1.5">Phone *</label>
                   <input required type="tel" placeholder="+91 XXXXX" value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-poppins focus:outline-none focus:border-sky-400 text-slate-800 placeholder:text-slate-300"
+                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-sky-400 text-slate-800 placeholder:text-slate-300"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-slate-500 font-poppins font-semibold uppercase tracking-wider block mb-1.5">Date</label>
+                  <label className="text-xs text-slate-500 font-semibold uppercase tracking-wider block mb-1.5">Date</label>
                   <input type="date" value={form.date}
                     onChange={(e) => setForm({ ...form, date: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-poppins focus:outline-none focus:border-sky-400 text-slate-800"
+                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-sky-400 text-slate-800"
                   />
                 </div>
               </div>
               <div>
-                <label className="text-xs text-slate-500 font-poppins font-semibold uppercase tracking-wider block mb-1.5">Guests</label>
+                <label className="text-xs text-slate-500 font-semibold uppercase tracking-wider block mb-1.5">Guests</label>
                 <select value={form.guests} onChange={(e) => setForm({ ...form, guests: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-poppins focus:outline-none focus:border-sky-400 text-slate-800"
+                  className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-sky-400 text-slate-800"
                 >
                   {['1', '2', '3', '4', '5', '6', '7', '8', '9+'].map((n) => <option key={n}>{n}</option>)}
                 </select>
               </div>
               <div>
-                <label className="text-xs text-slate-500 font-poppins font-semibold uppercase tracking-wider block mb-1.5">Special Requests</label>
+                <label className="text-xs text-slate-500 font-semibold uppercase tracking-wider block mb-1.5">Special Requests</label>
                 <textarea rows={2} placeholder="Honeymoon decoration, veg meals, early check-in…"
                   value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-poppins focus:outline-none focus:border-sky-400 text-slate-800 placeholder:text-slate-300 resize-none"
+                  className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-sky-400 text-slate-800 placeholder:text-slate-300 resize-none"
                 />
               </div>
               <button type="submit"
-                className="py-3 bg-sky-500 hover:bg-sky-600 text-white rounded-xl font-semibold font-poppins transition-colors shadow-lg shadow-sky-200"
+                className="py-3 bg-sky-500 hover:bg-sky-600 text-white rounded-xl font-semibold transition-colors shadow-lg shadow-sky-200"
               >
                 Confirm Booking Request
               </button>
-              <p className="text-center text-xs text-slate-400 font-poppins">
+              <p className="text-center text-xs text-slate-400">
                 Free cancellation · No advance required · We&apos;ll call within 30 mins
               </p>
             </form>

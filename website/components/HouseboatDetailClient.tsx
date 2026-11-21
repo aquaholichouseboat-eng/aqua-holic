@@ -26,7 +26,7 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
   const [bookingOpen, setBookingOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 font-poppins text-slate-800 pt-20 sm:pt-24 flex flex-col justify-between w-full max-w-full overflow-x-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-800 pt-20 sm:pt-24 flex flex-col justify-between w-full max-w-full overflow-x-hidden">
       {/* Same Unified Floating Navbar as Index Page */}
       <Navbar />
 
@@ -34,7 +34,7 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 flex-1 w-full min-w-0 pb-24">
         {/* Breadcrumb & Quick Back Link */}
         <div className="flex items-center justify-between gap-4 mb-6">
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-400 min-w-0">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-400 min-w-0 font-medium">
             <Link href="/" className="hover:text-sky-600 transition-colors shrink-0">Home</Link>
             <span>/</span>
             <Link href="/#houseboats" className="hover:text-sky-600 transition-colors shrink-0">Houseboats</Link>
@@ -63,10 +63,10 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
                 <span className="text-slate-400 font-normal">({boat.reviews} reviews)</span>
               </div>
             </div>
-            <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 break-words">
+            <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 break-words leading-[1.2]">
               {boat.title}
             </h1>
-            <p className="text-slate-500 text-sm sm:text-base mt-2 max-w-2xl leading-relaxed">
+            <p className="text-slate-500 text-[15px] sm:text-base mt-2 max-w-2xl leading-[1.7]">
               {boat.desc}
             </p>
           </div>
@@ -159,14 +159,14 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
         <div className="space-y-8 mb-16 w-full min-w-0">
           {/* Description & Highlights */}
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
-            <h2 className="font-playfair text-2xl font-bold text-slate-800 mb-4">
+            <h2 className="font-playfair text-2xl font-semibold text-slate-800 mb-4 leading-[1.2]">
               About this Houseboat Experience
             </h2>
-            <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
+            <p className="text-slate-600 leading-[1.7] text-[15px] sm:text-base">
               {boat.longDesc}
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3.5 mt-6 pt-6 border-t border-slate-100">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3.5 mt-6 pt-6 border-t border-slate-100 font-medium">
               {(boat.highlights || []).map((h, i) => (
                 <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
                   <Sparkles size={16} className="text-sky-500 shrink-0 mt-0.5" />
@@ -178,10 +178,10 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
 
           {/* Inclusions */}
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
-            <h2 className="font-playfair text-2xl font-bold text-slate-800 mb-4">
+            <h2 className="font-playfair text-2xl font-semibold text-slate-800 mb-4 leading-[1.2]">
               What&apos;s Included in Your Cruise
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 font-medium">
               {(boat.inclusions || []).map((inc, i) => (
                 <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100">
                   <CheckCircle2 size={18} className="text-emerald-500 shrink-0 mt-0.5" />
@@ -195,14 +195,14 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <UtensilsCrossed size={22} className="text-sky-600" />
-              <h2 className="font-playfair text-2xl font-bold text-slate-800">
+              <h2 className="font-playfair text-2xl font-semibold text-slate-800 leading-[1.2]">
                 Onboard Dining Menu
               </h2>
             </div>
-            <p className="text-xs sm:text-sm text-slate-500 mb-6">
+            <p className="text-xs sm:text-sm text-slate-500 mb-6 leading-[1.7]">
               Freshly prepared live on boat by your private culinary chef. Veg and custom non-veg options available upon request.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 font-medium">
               {(boat.menu || []).map((item, idx) => (
                 <div key={idx} className="p-3.5 bg-slate-50 rounded-2xl border border-slate-100 text-xs sm:text-sm text-slate-700">
                   {item}
@@ -215,7 +215,7 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
         {/* Other Houseboats */}
         <div className="border-t border-slate-200 pt-12">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="font-playfair text-2xl font-bold text-slate-800">
+            <h2 className="font-playfair text-2xl font-semibold text-slate-800 leading-[1.2]">
               Explore Other Houseboats
             </h2>
             <Link href="/houseboats" className="text-xs sm:text-sm font-semibold text-sky-600 hover:underline">
@@ -255,17 +255,17 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
                     <div className="p-2 sm:p-3 md:p-3.5 flex flex-col flex-1 justify-between gap-1.5">
                       <div>
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
-                          <h3 className="font-poppins font-bold text-xs sm:text-sm text-white group-hover:text-sky-300 transition-colors tracking-tight leading-tight truncate">
+                          <h3 className="font-semibold text-xs sm:text-sm text-white group-hover:text-sky-300 transition-colors tracking-tight leading-tight truncate">
                             {other.title}
                           </h3>
-                          <div className="bg-black/50 backdrop-blur-md px-2 py-0.5 rounded-full text-white font-semibold text-[10px] sm:text-xs border border-white/10 w-fit shrink-0 shadow-xs">
+                          <div className="bg-black/50 backdrop-blur-md px-2 py-0.5 rounded-full text-white font-bold text-[10px] sm:text-xs border border-white/10 w-fit shrink-0 shadow-xs font-playfair">
                             ₹{other.price.toLocaleString('en-IN')}
                           </div>
                         </div>
                         <p className="text-white/70 text-[9px] sm:text-[11px] leading-tight mb-1.5 line-clamp-1 sm:line-clamp-2">
                           {other.desc}
                         </p>
-                        <div className="flex flex-wrap items-center gap-1 mb-1">
+                        <div className="flex flex-wrap items-center gap-1 mb-1 font-medium">
                           {(other.chips || []).slice(0, 2).map((chip) => (
                             <span
                               key={chip}
@@ -305,7 +305,7 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
             <span className="font-playfair text-base sm:text-lg font-bold leading-none">
               ₹{boat.price.toLocaleString('en-IN')}
             </span>
-            <span className="text-[10px] sm:text-xs text-[#21381c]/75 font-medium leading-none">
+            <span className="text-[10px] sm:text-xs text-[#21381c]/75 font-medium leading-none font-sans">
               {boat.unit}
             </span>
           </div>
@@ -317,7 +317,7 @@ export default function HouseboatDetailClient({ boat }: { boat: Houseboat }) {
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 bg-[#25D366] hover:bg-[#20bd5a] text-white py-3 sm:py-3.5 px-3 sm:px-4 rounded-full font-semibold text-xs sm:text-sm font-poppins flex items-center justify-center gap-2 shadow-sm transition-all hover:scale-[1.02] active:scale-98 cursor-pointer"
+            className="flex-1 bg-[#25D366] hover:bg-[#20bd5a] text-white py-3 sm:py-3.5 px-3 sm:px-4 rounded-full font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all hover:scale-[1.02] active:scale-98 cursor-pointer"
           >
             <WhatsAppIcon size={18} className="text-white fill-white shrink-0" />
             <span>Book Now</span>

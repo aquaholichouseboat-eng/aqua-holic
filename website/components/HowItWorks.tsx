@@ -46,10 +46,10 @@ export default function HowItWorks() {
     <section className="py-14 md:py-20 bg-white">
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         <div className="text-center mb-10">
-          <span className="inline-block bg-sky-50 text-sky-600 text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-3 font-poppins">
+          <span className="inline-block bg-sky-50 text-sky-600 text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-3">
             Simple Process
           </span>
-          <h2 className="font-playfair text-3xl md:text-4xl font-bold text-slate-800">
+          <h2 className="font-playfair text-3xl md:text-4xl font-semibold text-slate-800 leading-[1.2]">
             How It Works
           </h2>
         </div>
@@ -70,11 +70,11 @@ export default function HowItWorks() {
               <div className="w-20 h-20 bg-sky-50 border-4 border-white rounded-2xl flex items-center justify-center mb-5 shadow-card">
                 <step.icon size={28} />
               </div>
-              <span className="text-sky-400 text-xs font-bold tracking-widest uppercase font-poppins mb-1">
+              <span className="text-sky-400 text-xs font-semibold tracking-widest uppercase mb-1">
                 Step {step.num}
               </span>
-              <h3 className="font-playfair text-lg font-bold text-slate-800 mb-2">{step.title}</h3>
-              <p className="text-slate-500 text-sm leading-relaxed font-poppins">{step.desc}</p>
+              <h3 className="font-playfair text-lg font-semibold text-slate-800 mb-2 leading-[1.2]">{step.title}</h3>
+              <p className="text-slate-600 text-sm leading-[1.7]">{step.desc}</p>
             </motion.div>
           ))}
         </div>

@@ -52,12 +52,12 @@ export default function Footer({ settings }: FooterProps) {
   const copyright = settings?.footerCopyright || '© 2026 AquaHolic. All rights reserved. Alleppey, Kerala.';
 
   return (
-    <footer id="footer" className="w-full bg-slate-900 text-white border-t border-slate-800 font-poppins h-[150px] min-h-[150px] flex items-center justify-center">
+    <footer id="footer" className="w-full bg-slate-900 text-white border-t border-slate-800 h-[150px] min-h-[150px] flex items-center justify-center">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 w-full flex flex-col md:flex-row items-center justify-between gap-2.5 md:gap-4">
         {/* Brand & Mobile Socials Row */}
         <div className="w-full md:w-auto flex items-center justify-between md:justify-start gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-poppins text-white font-bold text-sm sm:text-base md:text-lg tracking-tight">
+            <span className="text-white font-bold text-sm sm:text-base md:text-lg tracking-tight">
               {brandName}
             </span>
           </div>
