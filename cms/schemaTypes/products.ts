@@ -16,6 +16,22 @@ export default defineType({
   fields: [
     // --- 1. BASIC INFORMATION ---
     defineField({
+      name: 'category',
+      title: 'Houseboat Category',
+      type: 'string',
+      fieldset: 'basic',
+      initialValue: 'private',
+      options: {
+        list: [
+          { title: 'Private Houseboat (Exclusive Charter)', value: 'private' },
+          { title: 'Sharing Houseboat (Per-Room / Budget)', value: 'sharing' },
+        ],
+        layout: 'radio',
+      },
+      validation: (Rule) => Rule.required(),
+      description: 'Select whether this vessel is a Private Houseboat or a Sharing Houseboat',
+    }),
+    defineField({
       name: 'title',
       title: 'Houseboat Name',
       type: 'string',
@@ -191,8 +207,21 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
-      subtitle: 'capacity',
+      category: 'category',
+      capacity: 'capacity',
+      price: 'price',
       media: 'image',
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    prepare({ title, category, capacity, price, media }: any) {
+      const catLabel = category === 'sharing' ? 'Sharing Houseboat' : 'Private Houseboat';
+      const priceText = price ? ` · ₹${price.toLocaleString('en-IN')}` : '';
+      const capText = capacity ? ` · ${capacity}` : '';
+      return {
+        title,
+        subtitle: `[${catLabel}]${capText}${priceText}`,
+        media,
+      };
     },
   },
 });
