@@ -1,8 +1,9 @@
 'use client';
 
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Star, Shield, Phone, CheckCircle2 } from 'lucide-react';
+import { Star, Shield, Phone, CheckCircle2, Volume2, VolumeX } from 'lucide-react';
 import WhatsAppIcon from './WhatsAppIcon';
 import { urlForImage } from '@/lib/sanity/image';
 
@@ -27,6 +28,20 @@ interface HeroProps {
 }
 
 export default function Hero({ data }: HeroProps) {
+  const [isMuted, setIsMuted] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      const nextMuted = !isMuted;
+      videoRef.current.muted = nextMuted;
+      if (!nextMuted) {
+        videoRef.current.play().catch(() => {});
+      }
+      setIsMuted(nextMuted);
+    }
+  };
+
   const heading = data?.heroHeading || 'Experience the Beauty of';
   const headingHighlight = data?.heroHeadingHighlight || 'Alleppey Backwaters';
   const subtitle =
@@ -65,13 +80,14 @@ export default function Hero({ data }: HeroProps) {
         - 100% straight flat horizontal baseline at the bottom
       */}
       <div className="relative min-h-[460px] sm:min-h-[520px] md:min-h-[600px] w-full flex items-center justify-center pt-10 pb-10 sm:pt-14 sm:pb-14 md:pt-16 md:pb-16 overflow-hidden">
-        {/* Background Media: High-Res Image or Looping Background Video */}
+        {/* Background Media: High-Res Image or Looping Background Video (No dark filter overlay) */}
         {showVideo && heroVideoSrc ? (
           <video
+            ref={videoRef}
             key={heroVideoSrc}
             autoPlay
             loop
-            muted
+            muted={isMuted}
             playsInline
             poster={heroImgSrc}
             className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
@@ -96,8 +112,27 @@ export default function Hero({ data }: HeroProps) {
           />
         )}
 
-        {/* Subtle dark overlay for natural photo/video clarity and sharp text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-black/75 z-10" />
+        {/* Mute / Unmute Audio Toggle Button for Background Video */}
+        {showVideo && heroVideoSrc && (
+          <button
+            type="button"
+            onClick={toggleMute}
+            aria-label={isMuted ? 'Unmute video audio' : 'Mute video audio'}
+            className="absolute bottom-4 right-4 sm:bottom-6 sm:right-8 z-30 inline-flex items-center gap-1.5 bg-black/55 hover:bg-black/80 backdrop-blur-md text-white text-xs font-semibold px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-full border border-white/20 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          >
+            {isMuted ? (
+              <>
+                <VolumeX size={16} className="text-white" />
+                <span className="text-[11px] sm:text-xs">Unmute</span>
+              </>
+            ) : (
+              <>
+                <Volume2 size={16} className="text-sky-300" />
+                <span className="text-[11px] sm:text-xs">Mute</span>
+              </>
+            )}
+          </button>
+        )}
 
         {/* 
           Curved Shape on Top Two Sides + Left & Right Side Border:
@@ -159,14 +194,14 @@ export default function Hero({ data }: HeroProps) {
             transition={{ duration: 0.5 }}
             className="flex flex-col items-center"
           >
-            <h1 className="font-playfair text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-3 sm:mb-4 drop-shadow-md max-w-3xl mx-auto">
+            <h1 className="font-playfair text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-3 sm:mb-4 [text-shadow:_0_3px_18px_rgb(0_0_0_/_85%),_0_1px_4px_rgb(0_0_0_/_90%)] max-w-3xl mx-auto">
               {heading}<br />
-              <span className="text-sky-300">
+              <span className="text-sky-300 [text-shadow:_0_3px_18px_rgb(0_0_0_/_85%)]">
                 {headingHighlight}
               </span>
             </h1>
 
-            <p className="text-white/90 text-xs sm:text-base md:text-lg font-poppins max-w-md sm:max-w-xl mx-auto mb-5 sm:mb-6 leading-relaxed drop-shadow-sm">
+            <p className="text-white text-xs sm:text-base md:text-lg font-poppins max-w-md sm:max-w-xl mx-auto mb-5 sm:mb-6 leading-relaxed [text-shadow:_0_2px_12px_rgb(0_0_0_/_90%)]">
               {subtitle}
             </p>
 
@@ -175,7 +210,7 @@ export default function Hero({ data }: HeroProps) {
               {features.map((feat, idx) => (
                 <span
                   key={idx}
-                  className="flex items-center gap-1.5 bg-black/25 sm:bg-black/20 backdrop-blur-sm px-3 py-1 rounded-full"
+                  className="flex items-center gap-1.5 bg-black/45 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 shadow-md font-medium"
                 >
                   <CheckCircle2 size={13} className="text-emerald-400" /> {feat}
                 </span>
