@@ -59,11 +59,21 @@ export default async function HouseboatPage({
   }
 
   // Normalize image urls if returned from Sanity image asset objects
+  const fallbackImg =
+    localBoat?.image ||
+    'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1000&q=80&fit=crop';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const resolvedGallery = boat.gallery && boat.gallery.length > 0
+    ? boat.gallery.map((g: any) => urlForImage(g) || (typeof g === 'string' ? g : '')).filter(Boolean)
+    : (localBoat?.gallery || [fallbackImg]);
+
   const normalizedBoat: Houseboat = {
+    ...(localBoat || {}),
     ...boat,
-    image: urlForImage(boat.image) || (typeof boat.image === 'string' ? boat.image : 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1000&q=80&fit=crop'),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    gallery: boat.gallery ? boat.gallery.map((g: any) => urlForImage(g) || (typeof g === 'string' ? g : '')) : [],
+    image:
+      urlForImage(boat.image) ||
+      (typeof boat.image === 'string' ? boat.image : fallbackImg),
+    gallery: resolvedGallery.length > 0 ? resolvedGallery : [fallbackImg],
   };
 
   return <HouseboatDetailClient boat={normalizedBoat} />;

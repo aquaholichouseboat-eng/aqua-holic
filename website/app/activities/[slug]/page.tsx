@@ -59,11 +59,21 @@ export default async function ActivityPage({
   }
 
   // Normalize image urls if returned from Sanity image asset objects
+  const fallbackImg =
+    localAct?.image ||
+    'https://images.unsplash.com/photo-1605281317010-fe5ffe798166?w=1000&q=80&fit=crop';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const resolvedGallery = act.gallery && act.gallery.length > 0
+    ? act.gallery.map((g: any) => urlForImage(g) || (typeof g === 'string' ? g : '')).filter(Boolean)
+    : (localAct?.gallery || [fallbackImg]);
+
   const normalizedAct: Activity = {
+    ...(localAct || {}),
     ...act,
-    image: urlForImage(act.image) || (typeof act.image === 'string' ? act.image : 'https://images.unsplash.com/photo-1605281317010-fe5ffe798166?w=1000&q=80&fit=crop'),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    gallery: act.gallery ? act.gallery.map((g: any) => urlForImage(g) || (typeof g === 'string' ? g : '')) : [],
+    image:
+      urlForImage(act.image) ||
+      (typeof act.image === 'string' ? act.image : fallbackImg),
+    gallery: resolvedGallery.length > 0 ? resolvedGallery : [fallbackImg],
   };
 
   return <ActivityDetailClient act={normalizedAct} />;

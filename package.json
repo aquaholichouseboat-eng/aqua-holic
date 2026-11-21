@@ -4,6 +4,9 @@
   "private": true,
   "description": "AQUA_HOLIC Premium Kerala Houseboat Website & Independent Sanity Studio CMS",
   "scripts": {
+    "dev": "npm run dev --prefix website",
+    "build": "npm run build --prefix website",
+    "start": "npm run start --prefix website",
     "dev:website": "npm run dev --prefix website",
     "dev:cms": "npm run dev --prefix cms",
     "build:website": "npm run build --prefix website",
