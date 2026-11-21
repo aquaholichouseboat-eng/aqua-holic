@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowRight, Plus } from 'lucide-react';
 import { houseboats, Houseboat } from '@/data/houseboats';
 import { urlForImage } from '@/lib/sanity/image';
 import WhatsAppIcon from './WhatsAppIcon';
@@ -19,7 +21,11 @@ export default function HouseboatBookings({
   highlight,
   subtitle,
 }: HouseboatBookingsProps) {
-  const displayBoats = (boats && boats.length > 0 ? boats : houseboats).slice(0, 4);
+  const allBoats = boats && boats.length > 0 ? boats : houseboats;
+  const [visibleCount, setVisibleCount] = useState(4);
+  const displayBoats = allBoats.slice(0, visibleCount);
+  const hasMore = visibleCount < allBoats.length;
+
   const sectionTitle = title || 'Houseboat';
   const sectionHighlight = highlight || 'Bookings';
   const sectionSubtitle =
@@ -193,6 +199,32 @@ export default function HouseboatBookings({
               </div>
             );
           })}
+        </div>
+
+        {/* Bottom Section Actions: Add More Houseboats & View All */}
+        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+          {hasMore ? (
+            <button
+              type="button"
+              onClick={() => setVisibleCount((prev) => Math.min(prev + 4, allBoats.length))}
+              className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-sky-600 via-sky-500 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white font-semibold text-sm sm:text-base px-7 py-3.5 rounded-full shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 hover:-translate-y-0.5 transition-all duration-300 w-full sm:w-auto cursor-pointer"
+            >
+              <Plus size={18} />
+              <span>Add More Houseboats (+{allBoats.length - visibleCount} more)</span>
+            </button>
+          ) : (
+            <span className="text-xs sm:text-sm text-slate-500 font-medium bg-slate-100 px-4 py-2 rounded-full border border-slate-200">
+              ✓ All {allBoats.length} fleet houseboats displayed
+            </span>
+          )}
+
+          <Link
+            href="/houseboats"
+            className="inline-flex items-center justify-center gap-2 bg-white hover:bg-sky-50 text-slate-700 hover:text-sky-600 font-semibold text-sm sm:text-base px-7 py-3.5 rounded-full border border-slate-200 hover:border-sky-300 shadow-sm transition-all duration-300 w-full sm:w-auto group"
+          >
+            <span>Explore All Fleet ({allBoats.length} Houseboats)</span>
+            <ArrowRight size={17} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
       </div>
     </section>
