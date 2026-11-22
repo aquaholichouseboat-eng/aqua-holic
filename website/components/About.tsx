@@ -91,19 +91,6 @@ export default function About() {
 
           {/* Right — Content */}
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="flex items-center gap-3 mb-5"
-            >
-              <div className="h-px w-10 bg-cyan-400" />
-              <span className="text-cyan-400 text-xs font-semibold tracking-[0.3em] uppercase">
-                Our Story
-              </span>
-            </motion.div>
-
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}

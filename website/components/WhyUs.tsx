@@ -49,9 +49,6 @@ export default function WhyUs() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
           <div>
-            <span className="inline-block bg-sky-50 text-sky-600 text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-3">
-              Why Choose Us
-            </span>
             <h2 className="font-playfair text-3xl md:text-4xl font-semibold text-slate-800 leading-[1.2]">
               Kerala&apos;s Most Trusted<br />Houseboat Platform
             </h2>

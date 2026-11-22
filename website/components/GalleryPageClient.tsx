@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Eye, ArrowLeft, Sparkles } from 'lucide-react';
+import { X, Eye, ArrowLeft } from 'lucide-react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import WhatsAppIcon from './WhatsAppIcon';
@@ -63,10 +63,6 @@ export default function GalleryPageClient({ initialItems }: GalleryPageClientPro
 
         {/* Section Header */}
         <div className="mb-8 sm:mb-10 text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-1.5 bg-sky-100 text-sky-700 px-3 py-1 rounded-full text-xs font-semibold mb-3">
-            <Sparkles size={13} />
-            <span>{items.length} High-Resolution Photos</span>
-          </div>
           <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-800 leading-[1.2]">
             Kerala Backwaters <span className="text-sky-600">Photo Gallery</span>
           </h1>

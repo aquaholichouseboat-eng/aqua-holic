@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Sparkles } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { houseboats, Houseboat } from '@/data/houseboats';
 import { urlForImage } from '@/lib/sanity/image';
 
@@ -159,10 +159,6 @@ export default function AllHouseboatsClient({ initialBoats }: AllHouseboatsClien
 
       {/* Section Header */}
       <div className="mb-8 sm:mb-10">
-        <div className="inline-flex items-center gap-1.5 bg-sky-100 text-sky-700 px-3 py-1 rounded-full text-xs font-semibold mb-3">
-          <Sparkles size={13} />
-          <span>{boats.length} Certified Fleet Vessels</span>
-        </div>
         <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-800 leading-[1.2]">
           Explore All <span className="text-sky-600">Houseboats</span>
         </h1>

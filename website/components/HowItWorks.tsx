@@ -46,9 +46,6 @@ export default function HowItWorks() {
     <section className="py-14 md:py-20 bg-white">
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         <div className="text-center mb-10">
-          <span className="inline-block bg-sky-50 text-sky-600 text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-3">
-            Simple Process
-          </span>
           <h2 className="font-playfair text-3xl md:text-4xl font-semibold text-slate-800 leading-[1.2]">
             How It Works
           </h2>

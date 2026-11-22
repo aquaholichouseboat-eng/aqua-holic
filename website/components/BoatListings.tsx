@@ -238,9 +238,6 @@ export default function BoatListings() {
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="inline-block bg-sky-50 text-sky-600 text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-3">
-            Our Fleet
-          </span>
           <h2 className="font-playfair text-3xl md:text-4xl font-bold text-slate-800">
             Available Houseboats & Packages
           </h2>

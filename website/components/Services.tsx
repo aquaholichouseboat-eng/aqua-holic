@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Star, ArrowRight, Check, Compass, Sparkles } from 'lucide-react';
+import { Star, ArrowRight, Check, Compass } from 'lucide-react';
 import BookingModal, { BookingTarget } from './BookingModal';
 
 const houseboatPackages = [
@@ -97,10 +97,6 @@ export default function Services() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 md:mb-12">
           <div>
-            <div className="inline-flex items-center gap-2 bg-sky-500/10 border border-sky-400/20 text-sky-400 text-xs font-semibold tracking-widest uppercase px-3.5 py-1.5 rounded-full mb-3">
-              <Sparkles size={13} className="text-sky-400" />
-              Houseboat Packages with Activities
-            </div>
             <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[1.2]">
               Houseboat Bookings & <span className="text-sky-400">Full Activities</span>
             </h2>

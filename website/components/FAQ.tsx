@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, HelpCircle } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 const faqs = [
   {
@@ -42,10 +42,6 @@ export default function FAQ() {
     <section id="faq" className="py-16 md:py-24 bg-white border-t border-slate-100">
       <div className="max-w-4xl mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-1.5 bg-sky-50 text-sky-600 text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-3">
-            <HelpCircle size={14} />
-            Common Queries
-          </div>
           <h2 className="font-playfair text-3xl md:text-4xl font-semibold text-slate-800 leading-[1.2]">
             Frequently Asked Questions
           </h2>

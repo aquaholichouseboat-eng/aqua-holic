@@ -165,10 +165,7 @@ export default function HouseboatBookings({
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Main Section Header */}
         <div className="mb-8 sm:mb-10 text-center max-w-3xl mx-auto">
-          <span className="text-[11px] uppercase tracking-widest text-sky-700 font-semibold bg-sky-100/80 px-3.5 py-1 rounded-full border border-sky-200">
-            Alleppey Houseboat Fleet
-          </span>
-          <h2 className="font-playfair text-2xl sm:text-4xl md:text-5xl font-semibold text-slate-800 mt-2.5 leading-[1.2]">
+          <h2 className="font-playfair text-2xl sm:text-4xl md:text-5xl font-semibold text-slate-800 leading-[1.2]">
             {sectionTitle} <span className="text-sky-600">{sectionHighlight}</span>
           </h2>
           <p className="text-slate-500 text-[15px] sm:text-base mt-2 leading-[1.7]">
