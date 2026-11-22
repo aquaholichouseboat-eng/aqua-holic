@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Compass } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowUpRight, Sparkles } from 'lucide-react';
 import { activities, Activity } from '@/data/activities';
 import { urlForImage } from '@/lib/sanity/image';
 
@@ -15,23 +15,74 @@ interface ActivitiesProps {
   subtitle?: string;
 }
 
+interface ActivityCardConfig {
+  id: number | string;
+  slug: string;
+  title: string;
+  tag: string;
+  duration: string;
+  capacity: string;
+  price: number;
+  unit: string;
+  image: string;
+  desc: string;
+  glowColor: string;
+  icon: string;
+}
+
+const DEFAULT_ACTIVITY_METAS = [
+  { glowColor: '#38bdf8', icon: '⚡' },
+  { glowColor: '#34d399', icon: '🛶' },
+  { glowColor: '#fbbf24', icon: '⛵' },
+  { glowColor: '#818cf8', icon: '🌊' },
+];
+
 export default function Activities({
   items,
   title,
   highlight,
   subtitle,
 }: ActivitiesProps) {
-  // Ensure exactly 4 activity items with reliable fallbacks
-  let displayActivities = items && items.length > 0 ? [...items] : [...activities];
-  if (displayActivities.length < 4) {
+  // Guarantee exactly 4 activity items with reliable fallbacks
+  let rawActivities = items && items.length > 0 ? [...items] : [...activities];
+  if (rawActivities.length < 4) {
     for (const fallback of activities) {
-      if (!displayActivities.some((a) => a.slug === fallback.slug || a.id === fallback.id)) {
-        displayActivities.push(fallback);
+      if (!rawActivities.some((a) => a.slug === fallback.slug || a.id === fallback.id)) {
+        rawActivities.push(fallback);
       }
-      if (displayActivities.length >= 4) break;
+      if (rawActivities.length >= 4) break;
     }
   }
-  displayActivities = displayActivities.slice(0, 4);
+  rawActivities = rawActivities.slice(0, 4);
+
+  // Map to rich card configs
+  const cards: ActivityCardConfig[] = rawActivities.map((act, i) => {
+    const fallbackAct = activities.find((a) => a.slug === act.slug || a.id === act.id);
+    const fallbackImg =
+      fallbackAct?.image ||
+      'https://images.unsplash.com/photo-1605281317010-fe5ffe798166?w=1000&q=80&fit=crop';
+    const imgSrc =
+      urlForImage(act.image) ||
+      (typeof act.image === 'string' ? act.image : fallbackImg);
+
+    return {
+      id: act.id || act.slug || i,
+      slug: act.slug || fallbackAct?.slug || 'speed-boat',
+      title: (act.title || fallbackAct?.title || 'Activity').toUpperCase(),
+      tag: act.tag || fallbackAct?.tag || 'Curated Experience',
+      duration: act.duration || fallbackAct?.duration || '1–2 Hours',
+      capacity: act.capacity || fallbackAct?.capacity || 'Up to 6 Persons',
+      price: act.price || fallbackAct?.price || 1500,
+      unit: act.unit || fallbackAct?.unit || '/ boat',
+      image: imgSrc,
+      desc:
+        act.desc ||
+        fallbackAct?.desc ||
+        'Experience the scenic calm and natural backwater charm of Alleppey.',
+      glowColor: DEFAULT_ACTIVITY_METAS[i % 4].glowColor,
+      icon: DEFAULT_ACTIVITY_METAS[i % 4].icon,
+    };
+  });
 
   const sectionTitle = title || 'Backwater';
   const sectionHighlight = highlight || 'Activities';
@@ -39,10 +90,11 @@ export default function Activities({
     subtitle ||
     "Experience thrilling speed boats, eco kayaking, scenic shikaras, and open boats across Kerala's most beautiful backwaters.";
 
-  const total = displayActivities.length;
+  const total = cards.length;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const stageRef = useRef<HTMLDivElement>(null);
+  const [mouseParallax, setMouseParallax] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const nextCard = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % total);
@@ -52,13 +104,13 @@ export default function Activities({
     setActiveIndex((prev) => (prev - 1 + total) % total);
   }, [total]);
 
-  // Auto-rotation every 4.5s when not hovered
+  // Auto-jump loop every 3.8s when not hovered
   useEffect(() => {
     if (isPaused) return;
-    const interval = setInterval(() => {
+    const timer = setInterval(() => {
       nextCard();
-    }, 4500);
-    return () => clearInterval(interval);
+    }, 3800);
+    return () => clearInterval(timer);
   }, [isPaused, nextCard]);
 
   // Keyboard navigation
@@ -71,308 +123,330 @@ export default function Activities({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [nextCard, prevCard]);
 
-  // Generate 5 slot offsets: [-2, -1, 0, 1, 2] to form the continuous 3D cylinder curve
-  const slots = [-2, -1, 0, 1, 2];
+  // Subtle mouse parallax
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+    setMouseParallax({
+      x: Math.max(-1, Math.min(1, nx)) * 2.5,
+      y: Math.max(-1, Math.min(1, ny)) * 2.5,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setMouseParallax({ x: 0, y: 0 });
+    setIsPaused(false);
+  };
+
+  const activeCard = cards[activeIndex];
+
+  // Slot stacking configurations for the 4 cards:
+  // Slot 0: Front active card (only one full card in view)
+  // Slot 1: Layer behind 1 (tilted 9 deg, offset up-left, darker)
+  // Slot 2: Layer behind 2 (tilted 12 deg, offset further up-left, semi-transparent)
+  // Slot 3: Waiting in back (invisible)
+  const getSlotStyle = (slot: number) => {
+    switch (slot) {
+      case 0:
+        return {
+          x: 0,
+          y: 0,
+          rotate: 0,
+          scale: 1.0,
+          opacity: 1.0,
+          zIndex: 40,
+          filter: 'brightness(1)',
+          pointerEvents: 'auto' as const,
+        };
+      case 1:
+        return {
+          x: -26,
+          y: -18,
+          rotate: 9,
+          scale: 0.94,
+          opacity: 0.65,
+          zIndex: 30,
+          filter: 'brightness(0.65)',
+          pointerEvents: 'none' as const,
+        };
+      case 2:
+        return {
+          x: -48,
+          y: -34,
+          rotate: 12,
+          scale: 0.88,
+          opacity: 0.38,
+          zIndex: 20,
+          filter: 'brightness(0.4)',
+          pointerEvents: 'none' as const,
+        };
+      default:
+        return {
+          x: -68,
+          y: -50,
+          rotate: 15,
+          scale: 0.82,
+          opacity: 0.0,
+          zIndex: 10,
+          filter: 'brightness(0.2)',
+          pointerEvents: 'none' as const,
+        };
+    }
+  };
 
   return (
     <section
       id="activities"
-      className="relative py-14 sm:py-20 md:py-24 bg-gradient-to-b from-[#090f1d] via-[#0d1629] to-[#090f1d] text-white border-t border-slate-800/80 overflow-hidden"
+      className="relative py-14 sm:py-20 md:py-24 overflow-hidden border-t border-slate-200/80 select-none"
+      style={{ background: '#f6f6f4' }}
     >
-      {/* 3D Ambient Stage Lighting Orbs */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] sm:w-[950px] h-[400px] sm:h-[500px] bg-sky-500/15 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-10 left-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
+      {/* Dynamic Colored Ambient Radial Glow (Smoothly cross-fades per card) */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] sm:w-[650px] md:w-[780px] h-[480px] sm:h-[650px] md:h-[780px] rounded-full blur-[110px] pointer-events-none transition-colors duration-700 ease-out"
+        style={{
+          backgroundColor: activeCard.glowColor,
+          opacity: 0.32,
+        }}
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-sky-500/15 border border-sky-400/30 rounded-full text-sky-300 text-xs font-semibold uppercase tracking-wider mb-3 backdrop-blur-md shadow-xs">
-            <Compass size={14} className="text-sky-400 animate-spin" style={{ animationDuration: '10s' }} />
+        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/90 border border-slate-200/90 rounded-full text-slate-700 text-xs font-semibold uppercase tracking-wider mb-3 shadow-xs backdrop-blur-md">
+            <Sparkles size={14} className="text-sky-600 animate-pulse" />
             <span>Alleppey Experiences • 4 Curated Rides</span>
           </div>
-          <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-tight leading-[1.2]">
-            {sectionTitle} <span className="text-sky-400">{sectionHighlight}</span>
+          <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-900 leading-[1.2]">
+            {sectionTitle} <span className="text-sky-600">{sectionHighlight}</span>
           </h2>
-          <p className="text-slate-300 text-[15px] sm:text-base mt-2.5 max-w-xl mx-auto leading-[1.7]">
+          <p className="text-slate-600 text-[15px] sm:text-base mt-2.5 max-w-xl mx-auto leading-[1.7]">
             {sectionSubtitle}
           </p>
         </div>
 
-        {/* 3D Curved Cylindrical Coverflow Stage */}
+        {/* Stacked Glass Card Container */}
         <div
-          ref={stageRef}
+          ref={containerRef}
+          onMouseMove={handleMouseMove}
           onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          className="relative w-full max-w-5xl mx-auto h-[460px] sm:h-[500px] md:h-[540px] flex items-center justify-center select-none"
-          style={{
-            perspective: '1200px',
-            transformStyle: 'preserve-3d',
-          }}
+          onMouseLeave={handleMouseLeave}
+          className="relative w-full max-w-xl mx-auto h-[530px] sm:h-[590px] md:h-[630px] flex items-center justify-center"
         >
-          {slots.map((offset) => {
-            // Calculate corresponding activity index with circular wrap
-            const activityIndex = (activeIndex + offset + total * 10) % total;
-            const act = displayActivities[activityIndex];
+          {/* Subtle Parallax Tilt Container */}
+          <motion.div
+            animate={{
+              rotateY: mouseParallax.x,
+              rotateX: -mouseParallax.y,
+            }}
+            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+            className="relative w-[300px] sm:w-[350px] md:w-[380px] h-[450px] sm:h-[500px] md:h-[530px] flex items-center justify-center"
+            style={{ transformStyle: 'preserve-3d' }}
+          >
+            {/* The 4 Stacked Cards */}
+            {cards.map((card, i) => {
+              // Relative slot: 0 = front (only this one in full view), 1 = behind 1, 2 = behind 2, 3 = queue
+              const slot = (i - activeIndex + total) % total;
+              const slotStyle = getSlotStyle(slot);
+              const isFront = slot === 0;
 
-            const isCenter = offset === 0;
-            const isLeft = offset < 0;
-            const isRight = offset > 0;
-            const isOuter = Math.abs(offset) === 2;
+              return (
+                <motion.div
+                  key={card.id}
+                  initial={false}
+                  animate={{
+                    x: slotStyle.x,
+                    y: slotStyle.y,
+                    rotate: slotStyle.rotate,
+                    scale: slotStyle.scale,
+                    opacity: slotStyle.opacity,
+                    zIndex: slotStyle.zIndex,
+                    filter: slotStyle.filter,
+                  }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 280,
+                    damping: 28,
+                    mass: 0.85,
+                  }}
+                  className="absolute inset-0 w-full h-full rounded-[30px] sm:rounded-[34px] overflow-hidden border border-white/20 shadow-[0_25px_60px_rgba(0,0,0,0.38)] bg-gradient-to-b from-[#1c212a] via-[#12151c] to-[#0c0e12] text-white"
+                  style={{
+                    pointerEvents: slotStyle.pointerEvents,
+                    boxShadow: isFront
+                      ? `0 30px 70px -10px ${card.glowColor}40, 0 20px 40px -15px rgba(0,0,0,0.5)`
+                      : '0 20px 40px rgba(0,0,0,0.4)',
+                  }}
+                >
+                  <div className="flex flex-col h-full p-4 sm:p-5 justify-between">
+                    {/* Top Bar: Icon top-left & Circular Action Button top-right */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-sm">
+                          {card.icon}
+                        </span>
+                        <span className="text-[11px] font-semibold text-white/60 tracking-widest uppercase">
+                          Experience 0{i + 1}
+                        </span>
+                      </div>
 
-            const fallbackAct = activities.find(
-              (a) => a.slug === act.slug || a.id === act.id
-            );
-            const fallbackImg =
-              fallbackAct?.image ||
-              'https://images.unsplash.com/photo-1605281317010-fe5ffe798166?w=1000&q=80&fit=crop';
-            const imgSrc =
-              urlForImage(act.image) ||
-              (typeof act.image === 'string' ? act.image : fallbackImg);
-
-            const tag = act.tag || fallbackAct?.tag || 'Adventure';
-            const duration = act.duration || fallbackAct?.duration || '1–2 Hours';
-            const capacity = act.capacity || fallbackAct?.capacity || 'Up to 6 Persons';
-            const price = act.price || fallbackAct?.price || 1500;
-            const unit = act.unit || fallbackAct?.unit || '/ boat';
-
-            // 3D Cylinder Curve Calculations
-            // Responsive offsets based on slot distance
-            return (
-              <motion.div
-                key={`${act.slug || act.id}-${offset}`}
-                initial={false}
-                animate={{
-                  x:
-                    offset === 0
-                      ? 0
-                      : offset === -1
-                      ? -250
-                      : offset === 1
-                      ? 250
-                      : offset === -2
-                      ? -430
-                      : 430,
-                  z:
-                    offset === 0
-                      ? 0
-                      : offset === -1 || offset === 1
-                      ? -130
-                      : -280,
-                  rotateY:
-                    offset === 0
-                      ? 0
-                      : offset === -1
-                      ? 36
-                      : offset === 1
-                      ? -36
-                      : offset === -2
-                      ? 52
-                      : -52,
-                  scale:
-                    offset === 0
-                      ? 1.0
-                      : offset === -1 || offset === 1
-                      ? 0.88
-                      : 0.74,
-                  opacity:
-                    offset === 0
-                      ? 1.0
-                      : offset === -1 || offset === 1
-                      ? 0.78
-                      : 0.42,
-                  zIndex:
-                    offset === 0
-                      ? 30
-                      : offset === -1 || offset === 1
-                      ? 20
-                      : 10,
-                }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 240,
-                  damping: 26,
-                  mass: 0.85,
-                }}
-                drag={isCenter ? 'x' : false}
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.25}
-                onDragEnd={(e, { offset: dragOffset, velocity }) => {
-                  if (dragOffset.x > 50 || velocity.x > 300) {
-                    prevCard();
-                  } else if (dragOffset.x < -50 || velocity.x < -300) {
-                    nextCard();
-                  }
-                }}
-                onClick={() => {
-                  if (offset < 0) prevCard();
-                  if (offset > 0) nextCard();
-                }}
-                className={`absolute w-[290px] sm:w-[330px] md:w-[360px] h-[410px] sm:h-[450px] md:h-[480px] rounded-[26px] sm:rounded-[30px] overflow-hidden shadow-2xl transition-all duration-300 ${
-                  isCenter
-                    ? 'cursor-grab active:cursor-grabbing border-2 border-sky-400/80 shadow-[0_30px_70px_rgba(14,165,233,0.35),0_15px_30px_rgba(0,0,0,0.6)]'
-                    : 'cursor-pointer border border-white/15 hover:border-sky-400/50 shadow-[0_20px_45px_rgba(0,0,0,0.6)]'
-                }`}
-                style={{
-                  transformStyle: 'preserve-3d',
-                  touchAction: 'pan-y',
-                }}
-              >
-                {/* Card Container with Open Journal / 3D Curve Aesthetic */}
-                <div className="flex flex-col h-full bg-gradient-to-b from-[#182333] via-[#101926] to-[#0c121d] text-white">
-                  {/* Photo Section (Top ~60%) */}
-                  <div className="relative h-[60%] w-full overflow-hidden bg-slate-900">
-                    <Image
-                      src={imgSrc}
-                      alt={act.title}
-                      fill
-                      className={`object-cover transition-transform duration-700 ${
-                        isCenter ? 'scale-100 hover:scale-106' : 'scale-100'
-                      }`}
-                      sizes="(max-width: 640px) 290px, (max-width: 1024px) 330px, 360px"
-                      priority={isCenter}
-                    />
-                    {/* Natural Vignette Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#101926] via-[#101926]/30 to-transparent" />
-
-                    {/* Subtle Central Fold / Journal Lighting Effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
-
-                    {/* Duration Badge Top-Left */}
-                    <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-black/65 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 text-xs font-semibold text-emerald-300 shadow-md">
-                      <span>⏱️</span>
-                      <span>{duration}</span>
+                      <Link
+                        href={`/activities/${card.slug}`}
+                        aria-label={`Open ${card.title} details`}
+                        className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white transition-all hover:scale-108 active:scale-95"
+                      >
+                        <ArrowUpRight size={18} />
+                      </Link>
                     </div>
 
-                    {/* Tag Badge Top-Right */}
-                    <span className="absolute top-3.5 right-3.5 bg-sky-600/90 backdrop-blur-md text-white text-[11px] font-semibold px-3 py-1.5 rounded-full shadow-md border border-white/20">
-                      {tag}
-                    </span>
-
-                    {/* Card Index Indicator */}
-                    <div className="absolute bottom-3 left-3.5 flex items-center gap-1.5">
-                      <span className="bg-black/60 backdrop-blur-md text-white/90 text-[11px] font-medium px-2.5 py-1 rounded-md border border-white/15">
-                        Experience 0{activityIndex + 1} of 04
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Card Content Section (Bottom ~40%) */}
-                  <div className="p-4 sm:p-5 flex flex-col justify-between flex-1 gap-2.5 bg-[#101926]">
-                    {/* Title */}
-                    <div>
-                      <h3 className="font-playfair font-bold text-lg sm:text-xl md:text-2xl text-white tracking-tight leading-snug line-clamp-1">
-                        {act.title}
+                    {/* Centered Uppercase Title */}
+                    <div className="text-center my-1">
+                      <h3 className="font-playfair font-bold text-lg sm:text-xl md:text-2xl text-white tracking-wide uppercase line-clamp-1">
+                        {card.title}
                       </h3>
+                      <div
+                        className="w-10 h-0.5 mx-auto mt-1.5 rounded-full"
+                        style={{ backgroundColor: card.glowColor }}
+                      />
                     </div>
 
-                    {/* Two-Column Stats Box (Exact Structure from User Reference) */}
-                    <div className="grid grid-cols-2 gap-3 py-2 px-3 rounded-xl bg-white/5 border border-white/10 my-auto">
-                      {/* Left: Capacity */}
-                      <div className="flex flex-col">
-                        <span className="text-xs sm:text-sm font-bold text-white leading-tight">
-                          {capacity}
-                        </span>
-                        <span className="text-[10px] sm:text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">
-                          Capacity
-                        </span>
+                    {/* Rounded-Corner Image with Pill Tag */}
+                    <div className="relative w-full h-[200px] sm:h-[235px] md:h-[250px] rounded-2xl overflow-hidden border border-white/15 bg-slate-900 shadow-inner">
+                      <Image
+                        src={card.image}
+                        alt={card.title}
+                        fill
+                        className="object-cover transition-transform duration-700 hover:scale-106"
+                        sizes="(max-width: 640px) 300px, (max-width: 1024px) 350px, 380px"
+                        priority={isFront}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10" />
+
+                      {/* Pill Tag */}
+                      <div className="absolute bottom-3 left-3 bg-black/75 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-white border border-white/20 flex items-center gap-1.5 shadow-md">
+                        <span
+                          className="w-1.5 h-1.5 rounded-full"
+                          style={{ backgroundColor: card.glowColor }}
+                        />
+                        <span>{card.tag}</span>
                       </div>
 
-                      {/* Right: Pricing */}
-                      <div className="flex flex-col pl-2 border-l border-white/10">
-                        <span className="text-xs sm:text-sm font-bold text-sky-400 font-playfair leading-tight">
-                          ₹{price.toLocaleString('en-IN')}
-                        </span>
-                        <span className="text-[10px] sm:text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">
-                          Starts From {unit}
-                        </span>
+                      {/* Duration Tag Top-Left */}
+                      <div className="absolute top-2.5 left-2.5 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-medium text-emerald-300 border border-white/15">
+                        ⏱️ {card.duration}
                       </div>
                     </div>
 
-                    {/* Action Button: Interactive on Active Center Card */}
-                    <div className="pt-1">
-                      {isCenter ? (
+                    {/* Description & Two-Column Metrics */}
+                    <div className="space-y-2.5 mt-2">
+                      <p className="text-white/75 text-xs sm:text-[13px] text-center leading-relaxed line-clamp-2 px-1">
+                        {card.desc}
+                      </p>
+
+                      {/* Two-Column Stats Box */}
+                      <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/10 text-center">
+                        <div className="flex flex-col">
+                          <span className="text-xs sm:text-sm font-bold text-white">
+                            {card.capacity}
+                          </span>
+                          <span className="text-[10px] text-white/50 uppercase tracking-wider">
+                            Capacity
+                          </span>
+                        </div>
+
+                        <div className="flex flex-col border-l border-white/10">
+                          <span className="text-xs sm:text-sm font-bold text-sky-400 font-playfair">
+                            ₹{card.price.toLocaleString('en-IN')}
+                          </span>
+                          <span className="text-[10px] text-white/50 uppercase tracking-wider">
+                            Starts From {card.unit}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* CTA Action Button on Front Card */}
+                      {isFront && (
                         <Link
-                          href={`/activities/${act.slug}`}
-                          className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs sm:text-sm shadow-lg shadow-sky-600/30 transition-all hover:scale-102 active:scale-98"
+                          href={`/activities/${card.slug}`}
+                          className="w-full inline-flex items-center justify-center gap-2 py-2 px-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs sm:text-sm shadow-md shadow-sky-600/30 transition-all hover:scale-101 active:scale-98"
                         >
-                          <span>Explore Details</span>
+                          <span>Explore Experience</span>
                           <span className="text-base leading-none">→</span>
                         </Link>
-                      ) : (
-                        <div className="w-full text-center py-2 text-xs font-semibold text-sky-400/90 flex items-center justify-center gap-1">
-                          <span>Click to rotate</span>
-                          <span>↷</span>
-                        </div>
                       )}
                     </div>
                   </div>
+                </motion.div>
+              );
+            })}
+
+            {/* Faded Blurred Mirror Reflection Below Stack */}
+            <div
+              className="absolute -bottom-28 sm:-bottom-32 left-0 right-0 h-[100px] sm:h-[120px] rounded-[30px] overflow-hidden opacity-20 pointer-events-none"
+              style={{
+                transform: 'scaleY(-1) rotateX(180deg)',
+                filter: 'blur(3px)',
+                maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0))',
+                WebkitMaskImage:
+                  'linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0))',
+              }}
+            >
+              <div className="w-full h-full bg-gradient-to-b from-[#1c212a] to-transparent p-4 flex flex-col justify-end">
+                <div className="text-center font-playfair font-bold text-sm text-white/50 uppercase">
+                  {activeCard.title}
                 </div>
-              </motion.div>
-            );
-          })}
-
-          {/* Left Arrow Button */}
-          <button
-            onClick={prevCard}
-            aria-label="Previous activity"
-            className="absolute left-2 sm:left-4 md:left-6 z-40 w-11 sm:w-13 h-11 sm:h-13 rounded-full bg-slate-900/85 hover:bg-slate-800 text-white flex items-center justify-center shadow-2xl border border-white/20 transition-all hover:scale-110 active:scale-95 cursor-pointer backdrop-blur-md"
-          >
-            <ChevronLeft size={24} className="text-white" />
-          </button>
-
-          {/* Right Arrow Button */}
-          <button
-            onClick={nextCard}
-            aria-label="Next activity"
-            className="absolute right-2 sm:right-4 md:right-6 z-40 w-11 sm:w-13 h-11 sm:h-13 rounded-full bg-slate-900/85 hover:bg-slate-800 text-white flex items-center justify-center shadow-2xl border border-white/20 transition-all hover:scale-110 active:scale-95 cursor-pointer backdrop-blur-md"
-          >
-            <ChevronRight size={24} className="text-white" />
-          </button>
+              </div>
+            </div>
+          </motion.div>
         </div>
 
-        {/* Bottom Interactive Controls & Pill Indicators */}
+        {/* Bottom Interactive Controls (Next/Prev Buttons & Jumping Pills) */}
         <div className="flex flex-col items-center gap-3.5 mt-8 sm:mt-10">
-          {/* Pill Tabs for Desktop */}
-          <div className="hidden sm:flex items-center gap-2 p-1.5 bg-slate-900/80 backdrop-blur-md rounded-full border border-white/15 shadow-xl">
-            {displayActivities.map((act, idx) => (
-              <button
-                key={act.id || act.slug || idx}
-                onClick={() => setActiveIndex(idx)}
-                className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                  activeIndex === idx
-                    ? 'bg-sky-600 text-white shadow-md shadow-sky-600/30 scale-102'
-                    : 'text-slate-400 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <span
-                  className={`w-1.5 h-1.5 rounded-full ${
-                    activeIndex === idx ? 'bg-white' : 'bg-slate-600'
+          <div className="flex items-center gap-3">
+            {/* Previous Jump Button */}
+            <button
+              onClick={prevCard}
+              aria-label="Previous activity card"
+              className="w-10 sm:w-11 h-10 sm:h-11 rounded-full bg-white hover:bg-slate-50 text-slate-800 flex items-center justify-center shadow-md border border-slate-200/90 transition-all hover:scale-108 active:scale-95 cursor-pointer"
+            >
+              <ChevronLeft size={20} className="text-slate-700" />
+            </button>
+
+            {/* Pill Tabs for Instant Card Jumping */}
+            <div className="flex items-center gap-1.5 p-1.5 bg-white/90 backdrop-blur-md rounded-full border border-slate-200/90 shadow-sm">
+              {cards.map((card, idx) => (
+                <button
+                  key={card.id}
+                  onClick={() => setActiveIndex(idx)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    activeIndex === idx
+                      ? 'bg-slate-900 text-white shadow-sm scale-102'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                   }`}
-                />
-                <span>{act.title}</span>
-              </button>
-            ))}
+                >
+                  <span
+                    className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                      activeIndex === idx ? 'bg-white' : 'bg-slate-400'
+                    }`}
+                  />
+                  <span className="hidden sm:inline">{card.title.split(' ')[0]}</span>
+                  <span className="sm:hidden font-mono">0{idx + 1}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Next Jump Button */}
+            <button
+              onClick={nextCard}
+              aria-label="Next activity card"
+              className="w-10 sm:w-11 h-10 sm:h-11 rounded-full bg-white hover:bg-slate-50 text-slate-800 flex items-center justify-center shadow-md border border-slate-200/90 transition-all hover:scale-108 active:scale-95 cursor-pointer"
+            >
+              <ChevronRight size={20} className="text-slate-700" />
+            </button>
           </div>
 
-          {/* Dots Indicator for Mobile */}
-          <div className="flex sm:hidden items-center gap-2">
-            {displayActivities.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveIndex(idx)}
-                aria-label={`Go to activity ${idx + 1}`}
-                className={`transition-all rounded-full ${
-                  activeIndex === idx
-                    ? 'w-7 h-2.5 bg-sky-500'
-                    : 'w-2.5 h-2.5 bg-slate-700 hover:bg-slate-600'
-                }`}
-              />
-            ))}
-          </div>
-
-          <span className="text-xs text-slate-400 font-medium">
-            Drag horizontally or click side cards to rotate the 3D showcase
+          <span className="text-xs text-slate-600 font-medium">
+            Click cards or arrows to jump to next experience • Auto-jumps every 3.8s
           </span>
         </div>
       </div>
