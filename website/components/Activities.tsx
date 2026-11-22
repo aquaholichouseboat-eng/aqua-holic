@@ -1,15 +1,10 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useMotionValueEvent,
-  MotionValue,
-} from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { activities, Activity } from '@/data/activities';
 import { urlForImage } from '@/lib/sanity/image';
 
@@ -20,198 +15,13 @@ interface ActivitiesProps {
   subtitle?: string;
 }
 
-interface ActivityStackCardProps {
-  act: Activity;
-  index: number;
-  progress: MotionValue<number>;
-  isActive: boolean;
-}
-
-function ActivityStackCard({
-  act,
-  index,
-  progress,
-  isActive,
-}: ActivityStackCardProps) {
-  const fallbackAct = activities.find(
-    (a) => a.slug === act.slug || a.id === act.id
-  );
-  const fallbackImg =
-    fallbackAct?.image ||
-    'https://images.unsplash.com/photo-1605281317010-fe5ffe798166?w=1000&q=80&fit=crop';
-  const imgSrc =
-    urlForImage(act.image) ||
-    (typeof act.image === 'string' ? act.image : fallbackImg);
-
-  const tag = act.tag || fallbackAct?.tag || 'Adventure';
-  const duration = act.duration || fallbackAct?.duration || '1–2 Hours';
-  const capacity =
-    act.capacity || fallbackAct?.capacity || 'Up to 6 Persons';
-  const price = act.price || fallbackAct?.price || 1500;
-  const unit = act.unit || fallbackAct?.unit || '/ boat';
-  const desc = act.desc || fallbackAct?.desc || '';
-  const chips =
-    act.chips && act.chips.length > 0
-      ? act.chips
-      : fallbackAct?.chips || ['Guided Tour', duration];
-
-  // Continuous Framer Motion transforms for 4 cards across scroll progress [0, 1]
-  const y0 = useTransform(progress, [0, 0.18, 0.28], [0, 0, -25]);
-  const y1 = useTransform(progress, [0.12, 0.18, 0.28, 0.46, 0.56], [60, 60, 0, 0, -25]);
-  const y2 = useTransform(progress, [0.40, 0.46, 0.56, 0.74, 0.84], [60, 60, 0, 0, -25]);
-  const y3 = useTransform(progress, [0.68, 0.74, 0.84, 1.0], [60, 60, 0, 0]);
-
-  const scale0 = useTransform(progress, [0, 0.18, 0.28], [1, 1, 0.93]);
-  const scale1 = useTransform(progress, [0.12, 0.18, 0.28, 0.46, 0.56], [0.93, 0.93, 1, 1, 0.93]);
-  const scale2 = useTransform(progress, [0.40, 0.46, 0.56, 0.74, 0.84], [0.93, 0.93, 1, 1, 0.93]);
-  const scale3 = useTransform(progress, [0.68, 0.74, 0.84, 1.0], [0.93, 0.93, 1, 1]);
-
-  const opacity0 = useTransform(progress, [0, 0.18, 0.28], [1, 1, 0]);
-  const opacity1 = useTransform(progress, [0.12, 0.18, 0.28, 0.46, 0.56], [0, 0, 1, 1, 0]);
-  const opacity2 = useTransform(progress, [0.40, 0.46, 0.56, 0.74, 0.84], [0, 0, 1, 1, 0]);
-  const opacity3 = useTransform(progress, [0.68, 0.74, 0.84, 1.0], [0, 0, 1, 1]);
-
-  const imgScale0 = useTransform(progress, [0, 0.18, 0.28], [1, 1, 1.06]);
-  const imgScale1 = useTransform(progress, [0.18, 0.28, 0.46, 0.56], [1.10, 1.0, 1.0, 1.06]);
-  const imgScale2 = useTransform(progress, [0.46, 0.56, 0.74, 0.84], [1.10, 1.0, 1.0, 1.06]);
-  const imgScale3 = useTransform(progress, [0.74, 0.84, 1.0], [1.10, 1.0, 1.0]);
-
-  const y = [y0, y1, y2, y3][index] || y0;
-  const scale = [scale0, scale1, scale2, scale3][index] || scale0;
-  const opacity = [opacity0, opacity1, opacity2, opacity3][index] || opacity0;
-  const imgScale = [imgScale0, imgScale1, imgScale2, imgScale3][index] || imgScale0;
-
-  return (
-    <motion.div
-      style={{
-        y,
-        scale,
-        opacity,
-        zIndex: (index + 1) * 10,
-        pointerEvents: isActive ? 'auto' : 'none',
-      }}
-      className="absolute inset-0 w-full h-full"
-    >
-      <Link
-        href={`/activities/${act.slug}`}
-        aria-label={`View details for ${act.title}`}
-        className="relative rounded-[24px] sm:rounded-[28px] overflow-hidden bg-gradient-to-b from-[#1b2621] via-[#141e1a] to-[#0d1411] text-white shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 hover:border-sky-400/50 flex flex-col md:flex-row md:items-stretch h-full w-full group hover:shadow-[0_25px_60px_rgba(14,165,233,0.25)] transition-all duration-300 cursor-pointer"
-      >
-        {/* Left Column (Desktop) / Top Section (Mobile): Image Showcase */}
-        <div className="relative h-44 sm:h-52 md:h-full md:w-[48%] lg:w-[50%] shrink-0 overflow-hidden bg-slate-900">
-          <motion.div
-            style={{ scale: imgScale }}
-            className="relative w-full h-full"
-          >
-            <Image
-              src={imgSrc}
-              alt={act.title}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-108"
-              sizes="(max-width: 640px) 90vw, (max-width: 1024px) 70vw, 45vw"
-              priority={index === 0}
-            />
-          </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#141e1a] via-[#141e1a]/30 to-transparent" />
-
-          {/* Duration Badge Top-Left */}
-          <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-black/65 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/15 text-xs font-medium text-emerald-300 shadow-md">
-            <span>⏱️</span>
-            <span>{duration}</span>
-          </div>
-
-          {/* Tag Pill Top-Right */}
-          <span className="absolute top-3.5 right-3.5 bg-sky-600/90 backdrop-blur-md text-white text-[11px] font-semibold px-3 py-1.5 rounded-full shadow-md border border-white/20">
-            {tag}
-          </span>
-
-          {/* Bottom badge counter */}
-          <div className="absolute bottom-3 left-3.5 flex items-center gap-2">
-            <span className="bg-black/60 backdrop-blur-md text-white/90 text-[11px] font-medium px-2.5 py-1 rounded-md border border-white/15">
-              Experience 0{index + 1} of 04
-            </span>
-          </div>
-        </div>
-
-        {/* Right Column (Desktop) / Bottom Section (Mobile): Card Details */}
-        <div className="p-4 sm:p-5 md:p-6 lg:p-7 flex flex-col justify-between flex-1 gap-3 sm:gap-4 overflow-hidden">
-          <div className="space-y-2 sm:space-y-2.5">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-[11px] font-semibold text-sky-400 uppercase tracking-wider">
-                Kerala Backwater Experience
-              </span>
-              <span className="hidden md:inline-flex items-center gap-1 text-[11px] text-white/50 font-medium">
-                Step 0{index + 1} / 04
-              </span>
-            </div>
-
-            {/* Title */}
-            <h3 className="font-playfair text-xl sm:text-2xl lg:text-3xl font-semibold text-white group-hover:text-sky-300 transition-colors tracking-tight leading-[1.2]">
-              {act.title}
-            </h3>
-
-            {/* Specs: Capacity & Safety */}
-            <div className="flex items-center gap-2 text-xs text-white/80 flex-wrap font-medium">
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 px-2.5 py-1 rounded-lg text-xs">
-                👥 {capacity}
-              </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 px-2.5 py-1 rounded-lg text-xs">
-                🛡️ Safety Gear & Pilot
-              </span>
-            </div>
-
-            {/* Description */}
-            <p className="text-white/75 text-xs sm:text-sm leading-[1.7] line-clamp-2 md:line-clamp-3">
-              {desc}
-            </p>
-
-            {/* Frosted Glass Tags / Chips */}
-            {chips && chips.length > 0 && (
-              <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                {chips.slice(0, 3).map((chip) => (
-                  <span
-                    key={chip}
-                    className="inline-flex items-center bg-white/10 backdrop-blur-sm text-white/90 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-medium border border-white/10"
-                  >
-                    {chip}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Bottom Pricing & Action Section */}
-          <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-3 mt-auto">
-            <div>
-              <span className="text-[10px] text-white/50 block font-normal uppercase tracking-wider">
-                Starts From
-              </span>
-              <div className="text-sky-400 font-bold text-lg sm:text-xl lg:text-2xl leading-tight font-playfair">
-                ₹{price.toLocaleString('en-IN')}
-                <span className="text-xs text-white/60 font-normal font-sans"> {unit}</span>
-              </div>
-            </div>
-
-            <div className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs sm:text-sm shadow-md shadow-sky-600/30 group-hover:shadow-lg transition-all shrink-0">
-              <span>View Activity</span>
-              <span className="group-hover:translate-x-1 transition-transform">→</span>
-            </div>
-          </div>
-        </div>
-      </Link>
-    </motion.div>
-  );
-}
-
 export default function Activities({
   items,
   title,
   highlight,
   subtitle,
 }: ActivitiesProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // Guarantee exactly 4 activities
+  // Ensure exactly 4 activity items with reliable fallbacks
   let displayActivities = items && items.length > 0 ? [...items] : [...activities];
   if (displayActivities.length < 4) {
     for (const fallback of activities) {
@@ -229,141 +39,295 @@ export default function Activities({
     subtitle ||
     "Experience thrilling speed boats, eco kayaking, scenic shikaras, and open boats across Kerala's most beautiful backwaters.";
 
-  // Scroll tracking across sticky section
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
-
+  const total = displayActivities.length;
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    if (latest < 0.23) {
-      setActiveIndex(0);
-    } else if (latest < 0.51) {
-      setActiveIndex(1);
-    } else if (latest < 0.79) {
-      setActiveIndex(2);
-    } else {
-      setActiveIndex(3);
-    }
-  });
+  const nextCard = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % total);
+  }, [total]);
 
-  const scrollToCard = (targetIdx: number) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const containerTop = window.scrollY + rect.top;
-    const scrollableDistance = containerRef.current.offsetHeight - window.innerHeight;
-    if (scrollableDistance <= 0) return;
+  const prevCard = useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + total) % total);
+  }, [total]);
 
-    const targetProgressMap = [0.05, 0.35, 0.63, 0.92];
-    const targetY = containerTop + scrollableDistance * targetProgressMap[targetIdx];
+  // Subtle auto-rotation every 4.5s when not hovered
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      nextCard();
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [isPaused, nextCard]);
 
-    window.scrollTo({
-      top: targetY,
-      behavior: 'smooth',
-    });
-  };
+  // Keyboard navigation support
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') prevCard();
+      if (e.key === 'ArrowRight') nextCard();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [nextCard, prevCard]);
 
   return (
     <section
       id="activities"
-      ref={containerRef}
-      className="relative bg-gradient-to-b from-slate-50 via-sky-50/40 to-slate-50 border-t border-slate-100"
-      style={{ height: '340vh' }}
+      className="relative py-12 sm:py-16 md:py-20 bg-gradient-to-b from-slate-50 via-sky-50/30 to-slate-50 border-t border-slate-100 overflow-hidden"
     >
-      {/* Sticky Fullscreen Frame */}
-      <div className="sticky top-0 h-[100dvh] w-full flex flex-col justify-center overflow-hidden pt-16 sm:pt-20 pb-4 sm:pb-6">
-        {/* Ambient background light spheres */}
-        <div className="absolute top-1/4 left-4 sm:left-12 w-72 sm:w-96 h-72 sm:h-96 bg-sky-300/25 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 right-4 sm:right-12 w-72 sm:w-96 h-72 sm:h-96 bg-cyan-300/20 rounded-full blur-3xl pointer-events-none" />
+      {/* Ambient background light orbs */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[550px] sm:w-[750px] h-[350px] sm:h-[450px] bg-sky-200/35 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-72 h-72 bg-cyan-200/25 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 md:px-8 w-full flex flex-col justify-center flex-1">
-          {/* Section Header + Step Navigator */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-3 sm:mb-5">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-sky-100/80 border border-sky-200/80 rounded-full text-sky-800 text-[11px] font-semibold uppercase tracking-wider mb-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse" />
-                <span>Alleppey Experiences • 4 Curated Rides</span>
-              </div>
-              <h2 className="font-playfair text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-800 leading-[1.2]">
-                {sectionTitle} <span className="text-sky-600">{sectionHighlight}</span>
-              </h2>
-              <p className="text-slate-500 text-xs sm:text-sm md:text-[15px] mt-1 max-w-xl leading-[1.6]">
-                {sectionSubtitle}
-              </p>
-            </div>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-sky-100/90 border border-sky-200/80 rounded-full text-sky-800 text-xs font-semibold uppercase tracking-wider mb-3 shadow-xs">
+            <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse" />
+            <span>Curated Backwater Experiences</span>
+          </div>
+          <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-900 leading-[1.2]">
+            {sectionTitle} <span className="text-sky-600">{sectionHighlight}</span>
+          </h2>
+          <p className="text-slate-600 text-[15px] sm:text-base mt-2.5 max-w-xl mx-auto leading-[1.7]">
+            {sectionSubtitle}
+          </p>
+        </div>
 
-            {/* Interactive Step Navigator */}
-            <div className="flex items-center gap-1.5 sm:gap-2 self-start md:self-end overflow-x-auto max-w-full pb-1 scrollbar-none">
-              {displayActivities.map((act, idx) => (
-                <button
-                  key={act.id || act.slug || idx}
-                  onClick={() => scrollToCard(idx)}
-                  className={`group flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer shrink-0 ${
-                    activeIndex === idx
-                      ? 'bg-sky-600 text-white shadow-md shadow-sky-600/25 scale-102'
-                      : 'bg-white/80 hover:bg-white text-slate-600 border border-slate-200/80 hover:border-sky-300'
+        {/* 3D Depth Carousel Stage (Matching User Recording) */}
+        <div
+          ref={containerRef}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          className="relative w-full max-w-5xl mx-auto h-[460px] sm:h-[500px] md:h-[530px] flex items-center justify-center select-none"
+        >
+          {/* Card Deck with 3D Offset & Scale Transforms */}
+          {displayActivities.map((act, index) => {
+            // Compute circular distance from active card
+            let offset = (index - activeIndex) % total;
+            if (offset > total / 2) offset -= total;
+            if (offset < -total / 2) offset += total;
+
+            const isCenter = offset === 0;
+            const isLeft = offset === -1;
+            const isRight = offset === 1;
+            const isHidden = Math.abs(offset) >= 2;
+
+            const fallbackAct = activities.find(
+              (a) => a.slug === act.slug || a.id === act.id
+            );
+            const fallbackImg =
+              fallbackAct?.image ||
+              'https://images.unsplash.com/photo-1605281317010-fe5ffe798166?w=1000&q=80&fit=crop';
+            const imgSrc =
+              urlForImage(act.image) ||
+              (typeof act.image === 'string' ? act.image : fallbackImg);
+
+            const tag = act.tag || fallbackAct?.tag || 'Adventure';
+            const duration = act.duration || fallbackAct?.duration || '1–2 Hours';
+            const capacity = act.capacity || fallbackAct?.capacity || 'Up to 6 Persons';
+            const price = act.price || fallbackAct?.price || 1500;
+            const unit = act.unit || fallbackAct?.unit || '/ boat';
+
+            // Desktop and mobile X-translation offsets
+            // On mobile: ±230px; on tablet: ±290px; on desktop: ±340px
+            let xOffset = 0;
+            if (isLeft) xOffset = -340;
+            else if (isRight) xOffset = 340;
+            else if (offset < -1) xOffset = -480;
+            else if (offset > 1) xOffset = 480;
+
+            return (
+              <motion.div
+                key={act.id || act.slug || index}
+                initial={false}
+                animate={{
+                  x: isLeft
+                    ? '-68%'
+                    : isRight
+                    ? '68%'
+                    : isHidden
+                    ? offset * 120 + '%'
+                    : '0%',
+                  scale: isCenter ? 1.0 : isLeft || isRight ? 0.85 : 0.65,
+                  opacity: isCenter ? 1.0 : isLeft || isRight ? 0.48 : 0,
+                  zIndex: isCenter ? 30 : isLeft || isRight ? 10 : 0,
+                  filter: isCenter ? 'brightness(1)' : 'brightness(0.72)',
+                }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 280,
+                  damping: 28,
+                  mass: 0.9,
+                }}
+                drag={isCenter ? 'x' : false}
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
+                onDragEnd={(e, { offset: dragOffset, velocity }) => {
+                  if (dragOffset.x > 60 || velocity.x > 350) {
+                    prevCard();
+                  } else if (dragOffset.x < -60 || velocity.x < -350) {
+                    nextCard();
+                  }
+                }}
+                onClick={() => {
+                  if (isLeft) prevCard();
+                  if (isRight) nextCard();
+                }}
+                className={`absolute w-[280px] sm:w-[320px] md:w-[340px] h-[420px] sm:h-[460px] md:h-[480px] rounded-[26px] sm:rounded-[30px] overflow-hidden shadow-2xl transition-shadow duration-300 ${
+                  isCenter
+                    ? 'shadow-[0_25px_50px_rgba(14,165,233,0.22),0_15px_30px_rgba(0,0,0,0.14)] cursor-grab active:cursor-grabbing border-2 border-white'
+                    : 'cursor-pointer pointer-events-auto border border-slate-200/60'
+                }`}
+                style={{
+                  touchAction: 'pan-y',
+                }}
+              >
+                {/* Full Card Body */}
+                <div className="flex flex-col h-full bg-white text-slate-800">
+                  {/* Top Photo Section (Approx. 56% height, matching video reference) */}
+                  <div className="relative h-[56%] w-full overflow-hidden bg-slate-900">
+                    <Image
+                      src={imgSrc}
+                      alt={act.title}
+                      fill
+                      className={`object-cover transition-transform duration-700 ${
+                        isCenter ? 'scale-100 hover:scale-105' : 'scale-100'
+                      }`}
+                      sizes="(max-width: 640px) 280px, (max-width: 1024px) 320px, 340px"
+                      priority={index === 0}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20" />
+
+                    {/* Duration Badge Top-Left */}
+                    <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20 text-[11px] font-semibold text-emerald-300 shadow-sm">
+                      <span>⏱️</span>
+                      <span>{duration}</span>
+                    </div>
+
+                    {/* Tag Badge Top-Right */}
+                    <span className="absolute top-3 right-3 bg-sky-600/90 backdrop-blur-md text-white text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-sm border border-white/20">
+                      {tag}
+                    </span>
+                  </div>
+
+                  {/* Bottom Stats & Details (Clean White Card Layout matching User Video) */}
+                  <div className="p-4 sm:p-5 flex flex-col justify-between flex-1 bg-white">
+                    {/* Centered Uppercase Title */}
+                    <div>
+                      <h3 className="font-playfair font-bold text-lg sm:text-xl text-slate-900 tracking-tight uppercase line-clamp-1">
+                        {act.title}
+                      </h3>
+                    </div>
+
+                    {/* Two-Column Stats Box (Exact structure as recorded video: Title + 2 key metrics side by side) */}
+                    <div className="grid grid-cols-2 gap-3 pt-2 pb-1 border-y border-slate-100 my-auto">
+                      {/* Left Stat: Capacity */}
+                      <div className="flex flex-col">
+                        <span className="text-sm sm:text-base font-bold text-slate-800 leading-tight">
+                          {capacity}
+                        </span>
+                        <span className="text-[10px] sm:text-[11px] font-semibold text-slate-600 uppercase tracking-wider mt-0.5">
+                          Capacity
+                        </span>
+                      </div>
+
+                      {/* Right Stat: Price */}
+                      <div className="flex flex-col pl-2 border-l border-slate-100">
+                        <span className="text-sm sm:text-base font-bold text-sky-600 font-playfair leading-tight">
+                          ₹{price.toLocaleString('en-IN')}
+                        </span>
+                        <span className="text-[10px] sm:text-[11px] font-semibold text-slate-600 uppercase tracking-wider mt-0.5">
+                          Starts From
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Action Button: Visible on Active Center Card */}
+                    <div className="pt-2">
+                      {isCenter ? (
+                        <Link
+                          href={`/activities/${act.slug}`}
+                          className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-semibold text-xs sm:text-sm shadow-md shadow-sky-600/25 transition-all hover:scale-101 active:scale-98"
+                        >
+                          <span>Explore Details</span>
+                          <span className="text-base leading-none">→</span>
+                        </Link>
+                      ) : (
+                        <div className="w-full text-center py-2 text-xs font-semibold text-sky-600">
+                          Click to view
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+
+          {/* Left Arrow Button */}
+          <button
+            onClick={prevCard}
+            aria-label="Previous activity"
+            className="absolute left-2 sm:left-4 z-40 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-white/90 hover:bg-white text-slate-800 flex items-center justify-center shadow-lg border border-slate-200/80 transition-all hover:scale-108 active:scale-95 cursor-pointer backdrop-blur-sm"
+          >
+            <ChevronLeft size={22} className="text-slate-700" />
+          </button>
+
+          {/* Right Arrow Button */}
+          <button
+            onClick={nextCard}
+            aria-label="Next activity"
+            className="absolute right-2 sm:right-4 z-40 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-white/90 hover:bg-white text-slate-800 flex items-center justify-center shadow-lg border border-slate-200/80 transition-all hover:scale-108 active:scale-95 cursor-pointer backdrop-blur-sm"
+          >
+            <ChevronRight size={22} className="text-slate-700" />
+          </button>
+        </div>
+
+        {/* Interactive Step Navigator / Pagination Dots */}
+        <div className="flex flex-col items-center gap-3 mt-6 sm:mt-8">
+          {/* Pill Tabs for Desktop */}
+          <div className="hidden sm:flex items-center gap-2 p-1.5 bg-white/80 backdrop-blur-md rounded-full border border-slate-200/80 shadow-xs">
+            {displayActivities.map((act, idx) => (
+              <button
+                key={act.id || act.slug || idx}
+                onClick={() => setActiveIndex(idx)}
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  activeIndex === idx
+                    ? 'bg-sky-600 text-white shadow-md shadow-sky-600/25 scale-102'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
+                }`}
+              >
+                <span
+                  className={`w-1.5 h-1.5 rounded-full ${
+                    activeIndex === idx ? 'bg-white' : 'bg-slate-400'
                   }`}
-                  aria-label={`Jump to activity ${idx + 1}: ${act.title}`}
-                >
-                  <span
-                    className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                      activeIndex === idx
-                        ? 'bg-white'
-                        : 'bg-slate-300 group-hover:bg-sky-400'
-                    }`}
-                  />
-                  <span className="hidden sm:inline">{act.title}</span>
-                  <span className="sm:hidden font-mono">0{idx + 1}</span>
-                </button>
-              ))}
-            </div>
+                />
+                <span>{act.title}</span>
+              </button>
+            ))}
           </div>
 
-          {/* Stacking Card Stage */}
-          <div className="relative w-full max-w-[340px] sm:max-w-md md:max-w-3xl lg:max-w-4xl h-[420px] sm:h-[450px] md:h-[390px] lg:h-[415px] mx-auto">
-            {displayActivities.map((act, index) => (
-              <ActivityStackCard
-                key={act.id || act.slug || index}
-                act={act}
-                index={index}
-                progress={scrollYProgress}
-                isActive={activeIndex === index}
+          {/* Dots Indicator for Mobile */}
+          <div className="flex sm:hidden items-center gap-2">
+            {displayActivities.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveIndex(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
+                className={`transition-all rounded-full ${
+                  activeIndex === idx
+                    ? 'w-6 h-2 bg-sky-600'
+                    : 'w-2 h-2 bg-slate-300 hover:bg-slate-400'
+                }`}
               />
             ))}
           </div>
 
-          {/* Bottom Progress Bar & Scroll Hint */}
-          <div className="mt-3 sm:mt-4 flex items-center justify-between gap-4 max-w-[340px] sm:max-w-md md:max-w-3xl lg:max-w-4xl mx-auto w-full px-1">
-            {/* 4-Segment Progress Bar */}
-            <div className="flex-1 flex items-center gap-1.5 bg-slate-200/80 h-1.5 rounded-full overflow-hidden p-0.5">
-              {displayActivities.map((_, idx) => (
-                <div
-                  key={idx}
-                  className="flex-1 h-full rounded-full overflow-hidden bg-slate-200"
-                >
-                  <div
-                    className={`h-full transition-all duration-300 ${
-                      activeIndex >= idx ? 'bg-sky-600 w-full' : 'w-0'
-                    }`}
-                  />
-                </div>
-              ))}
-            </div>
-
-            {/* Scroll Indicator */}
-            <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-medium text-slate-500 shrink-0">
-              <span className="text-sky-600 font-bold">0{activeIndex + 1}</span>
-              <span>/</span>
-              <span>04</span>
-              <span className="text-slate-400 hidden sm:inline ml-1">
-                {activeIndex < 3
-                  ? '• Scroll down for next ride ↓'
-                  : '• Scroll down to explore Gallery ↓'}
-              </span>
-            </div>
-          </div>
+          <span className="text-xs text-slate-600 font-medium">
+            Swipe left/right or click flanking cards to explore
+          </span>
         </div>
       </div>
     </section>
